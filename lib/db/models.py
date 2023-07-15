@@ -10,7 +10,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable= False)
-    budget = Column(Float, defualt=0.0)
+    budget = Column(Float, default=0.0)
 
     expenses = relationship('Expense', back_populates='category')
 
