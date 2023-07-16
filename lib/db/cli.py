@@ -40,5 +40,10 @@ def delete_expense():
     budget_cli = BudgetCLI()
     budget_cli.delete_expense()
 
+@cli.command(name='add_category')
+def add_category():
+    budget_cli = BudgetCLI()
+    budget_cli.add_category()
+
 if __name__ == '__main__':
     cli()

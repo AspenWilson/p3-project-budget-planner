@@ -1,6 +1,6 @@
 import random
 from faker import Faker 
-from models import Category, Expense, Income, engine, Base
+from models import Category, Expense, Income, IncomeType, engine, Base
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 
@@ -9,9 +9,13 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def generate_seed_data():
-    categories = ['Food', 'Transportation', 'Housing', 'Utilities', 'Entertainment']
+    categories = ['Food', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Travel', 'Gifts', 'Medical', 'Personal', 'Pets']
     
     category_instances = []
+
+    income_types = ['Paycheck', 'Bonus', 'Savings']
+
+    income_type_instances = []
 
     for category_name in categories:
         category = Category(
@@ -22,21 +26,30 @@ def generate_seed_data():
         session.add(category)
         category_instances.append(category)
 
+    for income_type_name in income_types:
+        income_type = IncomeType(
+            name=income_type_name
+        )
+
+        session.add(income_type)
+        income_type_instances.append(income_type)    
+
     for _ in range(20):
         expense = Expense(
-            name=fake.text(max_nb_chars=20), 
+            name=fake.text(max_nb_chars=15), 
             amount=random.uniform(5, 100),
             category=random.choice(category_instances),
             date=fake.date_time_this_decade(tzinfo=None)
         )
 
-        session.add(expense) 
+        session.add(expense)
 
     for _ in range(5):
         income = Income(
             name=fake.job(), 
             amount=random.uniform(500, 3000),
-            date=fake.date_time_this_decade(tzinfo=None)
+            date=fake.date_time_this_decade(tzinfo=None),
+            income_type=random.choice(income_type_instances)
         )
 
         session.add(income)

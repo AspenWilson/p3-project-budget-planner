@@ -34,6 +34,16 @@ class Expense(Base):
             f'Date: {self.date}, ' + \
             f'Category: {self.category}'
 
+class IncomeType(Base):
+    __tablename__ = 'income_type'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), unique=True, nullable=False)
+
+    incomes = relationship('Income', back_populates='income_type', cascade='all, delete-orphan')
+
+    def __repr__(self):
+        return f'{self.name} (ID: {self.id})'
 
 class Income(Base):
     __tablename__ = 'income'
@@ -43,10 +53,15 @@ class Income(Base):
     name = Column(String(100), nullable = False)
     amount = Column(Float, nullable= False)
 
+    income_type_id = Column(Integer, ForeignKey('income_type.id'))
+    
+    income_type = relationship('IncomeType', back_populates='incomes')
+
     def __repr__(self):
         return f'Income #{self.id}: {self.name}, ' + \
             f'Amount: ${self.amount:.2f}, ' + \
-            f'Date: {self.date}'
+            f'Date: {self.date}, ' + \
+            f'Type: {self.income_type}'
 
 
 engine = create_engine(DB_URL)
