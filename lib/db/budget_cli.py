@@ -7,6 +7,17 @@ class BudgetCLI:
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
+    def welcome_message(self):
+        print("Welcome to your Budget Planner CLI!")
+        print("-----------------------------------")
+        print("You have many options to choose from to help you set and maintain your budget:")
+        print("--> View: This shows you your current budgets, broken out by category.")
+        print("--> Add_Expense: This is where you can add a new expense.")
+        print("--> Add_Income: This is where you can add income.")
+        print("--> Set_Budget: This is where you can set the budget for each category based on a percentage of your monthly income.")
+        print("--> Summary: This is where you can see a brief summary of your total income, total expenses, and your remaining budget.")
+        print("--> Delete_Expense: This is where you can delete an expense using the expense ID.")
+
     def view_budget(self):
         categories = self.session.query(Category).all()
 
