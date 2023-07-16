@@ -1,9 +1,21 @@
 import click
 from budget_cli import BudgetCLI 
 
+
+def welcome_message():
+    print("Welcome to your Budget Planner CLI!")
+    print("-----------------------------------")
+    print("You have many options to choose from to help you set and maintain your budget:")
+    print("View: This shows you your current expenses, broken out by category.")
+    print("Add_Expense: This is where you can add a new expense.")
+    print("Add_Income: This is where you can add income.")
+    print("Set_Budget: This is where you can set the budget for each category based on a percentage of your monthly income.")
+    print("Summary: This is where you can see a brief summary of your total income, total expenses, and your remaining budget.")
+    print("Delete_Expense: This is where you can delete an expense using the expense ID.")
+
 @click.group()
 def cli():
-    pass
+    welcome_message()
 
 @click.command()
 def view():
@@ -39,14 +51,6 @@ def summary():
 def delete_expense():
     budget_cli = BudgetCLI()
     budget_cli.delete_expense()
-
-cli.add_command(view)
-cli.add_command(add_expense, name="add_expense")
-cli.add_command(add_income, name="add_income")
-cli.add_command(set_budget, name = "set_budget")
-cli.add_command(set_income, name = "set_income")
-cli.add_command(summary, name = "summary")
-cli.add_command(delete_expense, name = "delete_expense")
 
 
 if __name__ == '__main__':
