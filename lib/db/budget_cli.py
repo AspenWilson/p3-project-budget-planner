@@ -48,14 +48,39 @@ class BudgetCLI:
 
     
     def set_budget(self):
-        category_name = input('Enter the category name for which you want to set the budget: ')
-        new_budget = float(input('Enter the new budget amount: '))
+        total_income = float(input("Enter your total income: $"))
 
-        category = self.session.query(Category).filter_by(name=category_name).first()
-        if category:
-            category.budget = new_budget
+        categories = self.session.query(Category).all()
+        total_budget = 0
+
+        for category in categories:
+            percent = float(input(f"Enter the percentage of income to allocate for {category.name}: "))
+            budget = (percent/100) * total_income
+            total_budget += budget
+            category.budget = budget
             self.session.commit()
-            print(f'Budget for {category_name} has been updated to ${new_budget:.2f}')
+        
+        remaining_budget = total_income - total_budget
+        print(f"\nRemaining budget after allocations: ${remaining_budget:.2f}\n")
+
+    def summary(self):
+        total_income = sum([income.amount for income in self.session.query(Income).all()])
+        total_expenses = sum([expense.amount for expense in self.session.query(Expense).all()])
+
+        print (f"\nTotal Income: ${total_income:.2f}")
+        print (f"Total Expenses: ${total_expenses:.2f}")
+        print (f"Remaining Budget: ${total_income - total_expenses:.2f}\n")
+
+    def delete_expense(self):
+        expense_id = int(input("Enter the ID of the expense you want to delete:"))
+
+        expense = self.session.query(Expense).get(expense_id)
+        if expense:
+            self.session.delete(expense)
+            self.session.commit()
+            print(f"Expense with ID {expense_id} deleted successfully!")
         else:
-            print('Category not found. Please ensure the category exists.') 
+            print(f"Expense with ID {expense_id} not found.")
+
+
     

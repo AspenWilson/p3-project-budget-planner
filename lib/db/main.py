@@ -30,11 +30,24 @@ def set_income():
     budget_cli = BudgetCLI()
     budget_cli.set_income()
 
+@click.command()
+def summary():
+    budget_cli = BudgetCLI()
+    budget_cli.summary()
+
+@click.command()
+def delete_expense():
+    budget_cli = BudgetCLI()
+    budget_cli.delete_expense()
+
 cli.add_command(view)
 cli.add_command(add_expense, name="add_expense")
 cli.add_command(add_income, name="add_income")
 cli.add_command(set_budget, name = "set_budget")
 cli.add_command(set_income, name = "set_income")
+cli.add_command(summary, name = "summary")
+cli.add_command(delete_expense, name = "delete_expense")
+
 
 if __name__ == '__main__':
     cli()
