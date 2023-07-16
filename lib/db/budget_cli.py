@@ -42,7 +42,7 @@ class BudgetCLI:
         amount = float(input('Enter the amount for the income: '))
 
 
-        self.session.add(expense)
+        self.session.add(income)
         self.session.commit()
         print('Income added successfully!')
 
