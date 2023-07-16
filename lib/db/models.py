@@ -14,6 +14,9 @@ class Category(Base):
 
     expenses = relationship('Expense', back_populates='category')
 
+    def __repr__(self):
+        return f'{self.name} (ID: {self.id})'
+
 class Expense(Base):
     __tablename__ = 'expenses'
 
@@ -25,6 +28,12 @@ class Expense(Base):
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship('Category', back_populates='expenses')
 
+    def __repr__(self):
+        return f'Expense #{self.id}: {self.name}, ' + \
+            f'Amount: ${self.amount:.2f}, ' + \
+            f'Date: {self.date}, ' + \
+            f'Category: {self.category}'
+
 
 class Income(Base):
     __tablename__ = 'income'
@@ -33,6 +42,11 @@ class Income(Base):
     date = Column(Date,nullable=False)
     name = Column(String(100), nullable = False)
     amount = Column(Float, nullable= False)
+
+    def __repr__(self):
+        return f'Income #{self.id}: {self.name}, ' + \
+            f'Amount: ${self.amount:.2f}, ' + \
+            f'Date: {self.date}'
 
 
 engine = create_engine(DB_URL)
