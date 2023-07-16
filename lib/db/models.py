@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -14,11 +14,11 @@ class Category(Base):
 
     expenses = relationship('Expense', back_populates='category')
 
-
 class Expense(Base):
     __tablename__ = 'expenses'
 
     id = Column (Integer, primary_key=True)
+    date = Column(Date, nullable=False)
     name = Column(String(100), nullable=False)
     amount = Column(Float, nullable=False)
 
@@ -30,6 +30,7 @@ class Income(Base):
     __tablename__ = 'income'
 
     id = Column(Integer, primary_key=True)
+    date = Column(Date,nullable=False)
     name = Column(String(100), nullable = False)
     amount = Column(Float, nullable= False)
 
