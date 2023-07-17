@@ -5,7 +5,7 @@ from budget_cli import BudgetCLI
 def cli():
     pass
 
-@cli.command(name='welcome')
+@cli.command(name='1')
 def welcome():
     budget_cli = BudgetCLI()
     budget_cli.welcome_message()
@@ -40,10 +40,30 @@ def delete_expense():
     budget_cli = BudgetCLI()
     budget_cli.delete_expense()
 
-@cli.command(name='add_category')
-def add_category():
+@cli.command(name='delete_income')
+def delete_expense():
     budget_cli = BudgetCLI()
-    budget_cli.add_category()
+    budget_cli.delete_income()
+
+@cli.command(name='add_expense_category')
+def update_amount():
+    budget_cli = BudgetCLI()
+    budget_cli.add_expense_category()
+
+@cli.command(name='add_income_type')
+def update_amount():
+    budget_cli = BudgetCLI()
+    budget_cli.add_income_type()
+
+@cli.command(name='update_income')
+def update_income():
+    budget_cli = BudgetCLI()
+    budget_cli.update_income()
+
+@cli.command(name='update_expense')
+def update_income():
+    budget_cli = BudgetCLI()
+    budget_cli.update_expense()
 
 if __name__ == '__main__':
     cli()
