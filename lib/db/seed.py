@@ -13,14 +13,16 @@ def generate_seed_data():
     
     category_instances = []
 
-    income_types = ['Paycheck', 'Bonus', 'Savings']
+    income_types = ['Paycheck', 'Bonus']
 
     income_type_instances = []
 
     for category_name in categories:
         category = Category(
             name=category_name, 
-            budget=random.randint(100, 1000)
+            budget=random.randint(100, 1000),
+            actual = 0.0,
+            variance = 0.0
         )
 
         session.add(category)
@@ -28,7 +30,10 @@ def generate_seed_data():
 
     for income_type_name in income_types:
         income_type = IncomeType(
-            name=income_type_name
+            name=income_type_name,
+            expected=random.randint(100, 1000),
+            actual = 0.0,
+            variance = 0.0
         )
 
         session.add(income_type)
@@ -53,6 +58,12 @@ def generate_seed_data():
         )
 
         session.add(income)
+    
+    for category in category_instances:
+        category.variance = category.budget - category.actual
+    
+    for income_type in income_type_instances:
+        income_type.variance = income_type.expected - income_type.actual
     
     session.commit()
 

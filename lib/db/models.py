@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+import datetime
 
 Base = declarative_base()
 DB_URL = 'sqlite:///budget_planner.db'
@@ -11,6 +12,8 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable= False)
     budget = Column(Float, default=0.0)
+    actual = Column(Float, default=0.0)
+    variance = Column(Float, default=0.0)
 
     expenses = relationship('Expense', back_populates='category')
 
@@ -39,6 +42,9 @@ class IncomeType(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable=False)
+    expected = Column(Float, default=0.0)
+    actual = Column(Float, default=0.0)
+    variance = Column(Float, default=0.0)
 
     incomes = relationship('Income', back_populates='income_type', cascade='all, delete-orphan')
 
