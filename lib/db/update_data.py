@@ -1,4 +1,5 @@
 from models import Category, Expense, Income, IncomeType, engine
+from variances import Variance
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 

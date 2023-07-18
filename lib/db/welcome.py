@@ -13,11 +13,11 @@ class Welcome:
         print("-----------------------------------")
         print("You have many options to choose from to help you set and maintain your budget. Your options are listed below. To call these commands, simply enter python cli.py and then enter the number of the command. If you ever need to see your options, type python cli.py 0 into your terminal")
         print("--> 1. View: This shows you your current budgets, broken out by category.")
-        print("--> Add_Expense: This is where you can add a new expense.")
-        print("--> Add_Income: This is where you can add income.")
-        print("--> Set_Budget: This is where you can set the budget for each category based on a percentage of your monthly income.")
+        print("--> Add Expense: This is where you can add a new expense.")
+        print("--> Add Income: This is where you can add income.")
+        print("--> Set Budget: This is where you can set the budget for each category based on a percentage of your monthly income.")
         print("--> Summary: This is where you can see a brief summary of your total income, total expenses, and your remaining budget.")
-        print("--> Delete_Expense: This is where you can delete an expense using the expense ID.")
+        print("--> Delete Expense: This is where you can delete an expense using the expense ID.")
 
 #views and summaries
 
@@ -44,27 +44,6 @@ class Welcome:
         print (f"\nTotal Income: ${total_income:.2f}")
         print (f"Total Expenses: ${total_expenses:.2f}")
         print (f"Remaining Budget: ${total_income - total_expenses:.2f}\n")
-
-
-    def set_budget(self):
-        total_income = float(input("Enter your expected monthly income: $"))
-
-        categories = self.session.query(Category).all()
-        total_budget = 0
-
-        for category in categories:
-            percent = float(input(f"Enter the percentage of income to allocate for {category.name}: "))
-            budget = (percent/100) * total_income
-            total_budget += budget
-            category.budget = budget
-            self.session.commit()
-        
-        remaining_budget = total_income - total_budget
-        if remaining_budget < 0:
-            print("Insufficient budget. The allocated percentage exceeds the total income.")
-        else:
-            print(f"\nRemaining budget after allocations: ${remaining_budget:.2f}\n")
-    
 
 
     

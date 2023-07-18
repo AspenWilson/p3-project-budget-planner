@@ -36,6 +36,7 @@ class DeleteData:
             self.session.query(Expense).delete()
             self.session.query(Income).delete()
             self.session.query(Category).delete()
+            self.session.query(IncomeType).delete()
             self.session.commit()
             print('Seed data has been deleted.')
         else:

@@ -3,6 +3,8 @@ from welcome import Welcome
 from add_data import AddData
 from delete_data import DeleteData
 from update_data import UpdateData
+from variances import Variance
+from summary_and_budget import Budget
 
 @click.group()
 def cli():
@@ -17,13 +19,13 @@ def welcome():
 
 @cli.command(name='1')
 def view_budget():
-    budget_cli = BudgetCLI()
-    budget_cli.view_budget()
+    welcome = Welcome()
+    welcome.view_budget()
 
 @cli.command(name='set_budget')
 def set_budget():
-    budget_cli = BudgetCLI()
-    budget_cli.set_budget()
+    summary_and_budget = Budget()
+    summary_and_budget.set_budget()
 
 @cli.command(name='summary')
 def summary():
@@ -37,10 +39,16 @@ def add_expense():
     add_data = AddData()
     add_data.add_expense()
 
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
+
 @cli.command(name='add_income')
 def add_income():
     add_data = AddData()
     add_data.add_income()
+
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
 
 @cli.command(name='add_expense_category')
 def add_expense_category():
@@ -59,10 +67,16 @@ def update_income():
     update_data = UpdateData()
     update_data.update_income()
 
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
+
 @cli.command(name='update_expense')
 def update_expense():
     update_data = UpdateData()
     update_data.update_expense()
+
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
 
 #commands from delete_data.py
 
@@ -80,6 +94,14 @@ def delete_income():
 def delete_seed_data():
     delete_data = DeleteData()
     delete_data.delete_seed_data()
+
+#commands from variances.py
+
+@cli.command(name='update_all_actuals_and_variances')
+def update_all_actuals_and_variances():
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
+
 
 if __name__ == '__main__':
     cli()

@@ -18,7 +18,7 @@ class Category(Base):
     expenses = relationship('Expense', back_populates='category')
 
     def __repr__(self):
-        return f'{self.name} (ID: {self.id})'
+        return f'{self.name} (ID: {self.id})' 
 
 class Expense(Base):
     __tablename__ = 'expenses'
@@ -46,7 +46,7 @@ class IncomeType(Base):
     actual = Column(Float, default=0.0)
     variance = Column(Float, default=0.0)
 
-    incomes = relationship('Income', back_populates='income_type', cascade='all, delete-orphan')
+    incomes = relationship('Income', back_populates='income_type')
 
     def __repr__(self):
         return f'{self.name} (ID: {self.id})'

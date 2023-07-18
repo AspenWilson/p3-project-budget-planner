@@ -20,7 +20,7 @@ def generate_seed_data():
     for category_name in categories:
         category = Category(
             name=category_name, 
-            budget=random.randint(100, 1000),
+            budget=round(random.randint(100, 1000), 2),
             actual = 0.0,
             variance = 0.0
         )
@@ -31,7 +31,7 @@ def generate_seed_data():
     for income_type_name in income_types:
         income_type = IncomeType(
             name=income_type_name,
-            expected=random.randint(100, 1000),
+            expected=round(random.randint(100, 1000), 2),
             actual = 0.0,
             variance = 0.0
         )
@@ -42,7 +42,7 @@ def generate_seed_data():
     for _ in range(20):
         expense = Expense(
             name=fake.text(max_nb_chars=15), 
-            amount=random.uniform(5, 100),
+            amount=round(random.uniform(5, 100), 2),
             category=random.choice(category_instances),
             date=fake.date_time_this_decade(tzinfo=None)
         )
@@ -52,7 +52,7 @@ def generate_seed_data():
     for _ in range(5):
         income = Income(
             name=fake.job(), 
-            amount=random.uniform(500, 3000),
+            amount=round(random.uniform(500, 3000), 2),
             date=fake.date_time_this_decade(tzinfo=None),
             income_type=random.choice(income_type_instances)
         )
