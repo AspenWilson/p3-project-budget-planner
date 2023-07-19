@@ -1,4 +1,4 @@
-from models import Category, Expense, Income, IncomeType, engine
+from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
@@ -29,7 +29,7 @@ class AddData:
 
         category_name = input('Enter the category for the expense: ')
         
-        category = self.session.query(Category).filter_by(name=category_name).first()
+        category = self.session.query(Budget).filter_by(name=category_name).first()
         if category:
             expense = Expense(name=name, amount=amount, date=date, category=category)
             self.session.add(expense)
@@ -39,10 +39,10 @@ class AddData:
             print('Category not found. Please ensure the category exists.') 
     
     def add_income(self):
-        name = input('Enter the name of the income: ')
+        name = input('Enter a name for this income entry: ')
         
         while True:
-            amount_str = input('Enter the amount for the expense: $')
+            amount_str = input('Enter the amount for this income entry: $')
             try:
                 amount = float(amount_str)
                 break  
@@ -64,17 +64,17 @@ class AddData:
     def add_expense_category(self):
         category_name = input('Enter the name of the new expense category: ')
 
-        existing_category = self.session.query(Category).filter_by(name=category_name).first()
+        existing_category = self.session.query(Budget).filter_by(name=category_name).first()
         if existing_category:
             print('Category already exists. Please choose a different name or use existing category.')
-            print(f'Current expense categories: {self.session.query(Category).all()}')
+            print(f'Current expense categories: {self.session.query(Budget).all()}')
             return
 
-        category = Category(name=category_name)
+        category = Budget(name=category_name)
         self.session.add(category)
         self.session.commit()
         print('Category added successfully!')
-        print(f'Updated expense categories: {self.session.query(Category).all()}')
+        print(f'Updated expense categories: {self.session.query(Budget).all()}')
     
     def add_income_type(self):
         income_type_name = input('Enter the name of the new income type: ')

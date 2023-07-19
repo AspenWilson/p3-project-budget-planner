@@ -19,8 +19,8 @@ def generate_seed_data():
 
     for category_name in categories:
         category = Category(
-            name=category_name, 
-            budget=round(random.randint(100, 1000), 2),
+            category=category_name, 
+            budget=0.0,
             actual = 0.0,
             variance = 0.0
         )

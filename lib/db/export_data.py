@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from models import Category, Expense, Income, IncomeType, engine
+from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 
 def export_to_excel(table_name, data, output_dir):
@@ -11,22 +11,22 @@ def export_to_excel(table_name, data, output_dir):
     output_file = os.path.join(output_dir, f"{table_name}.xlsx")
     df.to_excel(output_file, index=False)
 
-def export_categories():
+def export_budget():
     Session = sessionmaker(bind=engine)
     session = Session()
-    categories = session.query(Category).all()
+    budgets = session.query(Budget).all()
 
     data = [
         {
-            "Category Name": category.name,
-            "Budget": category.budget,
-            "Actual": category.actual,
-            "Variance": category.variance
+            "Budget Category": budget.category,
+            "Budget": budget.budget,
+            "Actual": budget.actual,
+            "Variance": budget.variance
         }
-        for category in categories
+        for budget in budgets
     ]
 
-    export_to_excel("Categories", data, "output_directory")
+    export_to_excel("Budget", data, "output_directory")
 
 def export_expenses():
     Session = sessionmaker(bind=engine)
@@ -80,7 +80,7 @@ def export_income_types():
     export_to_excel("IncomeTypes", data, "output_directory")
 
 if __name__ == "__main__":
-    export_categories()
+    export_budget()
     export_expenses()
     export_income()
     export_income_types()

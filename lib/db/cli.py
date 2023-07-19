@@ -4,8 +4,10 @@ from add_data import AddData
 from delete_data import DeleteData
 from update_data import UpdateData
 from variances import Variance
-from summary_and_budget import Budget
-import export_data
+from budget import Budget
+from summaries import MonthSummary
+from export_data import export_budget, export_expenses, export_income, export_income_types
+
 
 @click.group()
 def cli():
@@ -23,15 +25,19 @@ def view_budget():
     welcome = Welcome()
     welcome.view_budget()
 
+#commands from budget.py
+
 @cli.command(name='set_budget')
 def set_budget():
-    summary_and_budget = Budget()
-    summary_and_budget.set_budget()
+    budget = Budget()
+    budget.set_budget()
 
-@cli.command(name='summary')
-def summary():
-    budget_cli = BudgetCLI()
-    budget_cli.summary()
+#commands from summaries.py
+
+@cli.command(name='monthly_summary')
+def monthly_summary():
+    summaries = MonthSummary()
+    summaries.view_monthly_summary()
 
 #commands from add_data
 
@@ -104,10 +110,13 @@ def update_all_actuals_and_variances():
     variances.update_all_actuals_and_variances()
 
 #commands from export_data.py
-@cli.command(name='export_data')
-def export_data():
-    export_data = export_data()
-    export_data()
+@cli.command(name='export_all_data')
+def export_all_data():
+    export_categories()
+    export_expenses()
+    export_income()
+    export_income_types()
+    print("Data exported successfully to the output_directory folder.")
 
 if __name__ == '__main__':
     cli()

@@ -6,11 +6,11 @@ import datetime
 Base = declarative_base()
 DB_URL = 'sqlite:///budget_planner.db'
 
-class Category(Base):
-    __tablename__ = 'categories'
+class Budget(Base):
+    __tablename__ = 'monthly_budget'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), unique=True, nullable= False)
+    category = Column(String(100), unique=True, nullable= False)
     budget = Column(Float, default=0.0)
     actual = Column(Float, default=0.0)
     variance = Column(Float, default=0.0)
@@ -18,7 +18,7 @@ class Category(Base):
     expenses = relationship('Expense', back_populates='category')
 
     def __repr__(self):
-        return f'{self.name} (ID: {self.id})' 
+        return f'{self.category} (ID: {self.id})' 
 
 class Expense(Base):
     __tablename__ = 'expenses'

@@ -1,4 +1,4 @@
-from models import Category, Expense, Income, IncomeType, engine
+from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
@@ -35,7 +35,7 @@ class DeleteData:
         if response.lower() == 'y':
             self.session.query(Expense).delete()
             self.session.query(Income).delete()
-            self.session.query(Category).delete()
+            self.session.query(Budget).delete()
             self.session.query(IncomeType).delete()
             self.session.commit()
             print('Seed data has been deleted.')
