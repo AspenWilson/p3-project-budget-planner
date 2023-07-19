@@ -5,6 +5,7 @@ from delete_data import DeleteData
 from update_data import UpdateData
 from variances import Variance
 from summary_and_budget import Budget
+import export_data
 
 @click.group()
 def cli():
@@ -102,6 +103,11 @@ def update_all_actuals_and_variances():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
+#commands from export_data.py
+@cli.command(name='export_data')
+def export_data():
+    export_data = export_data()
+    export_data()
 
 if __name__ == '__main__':
     cli()
