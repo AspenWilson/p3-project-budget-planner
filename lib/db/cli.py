@@ -6,7 +6,7 @@ from update_data import UpdateData
 from variances import Variance
 from budget import Budget
 from summaries import MonthSummary
-from export_data import export_budget, export_expenses, export_income, export_income_types
+from export_data import export_budgets, export_expenses, export_income, export_income_types
 
 
 @click.group()
@@ -112,7 +112,7 @@ def update_all_actuals_and_variances():
 #commands from export_data.py
 @cli.command(name='export_all_data')
 def export_all_data():
-    export_categories()
+    export_category()
     export_expenses()
     export_income()
     export_income_types()

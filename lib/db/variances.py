@@ -8,11 +8,11 @@ class Variance:
         Session = sessionmaker(bind=engine)
         self.session = Session()
     
-    def calculate_category_actual_and_variance(self, category):
-        actual = sum(expense.amount for expense in category.expenses)
-        variance = category.budget - actual
-        category.actual = actual
-        category.variance = variance
+    def calculate_budget_actual_and_variance(self, budget_category):
+        actual = sum(expense.amount for expense in budget.expenses)
+        variance = budget.budget - actual
+        budget.actual = actual
+        budget.variance = variance
         self.session.commit()
     
     def calculate_income_type_actual_and_variance(self, income_type):
@@ -23,9 +23,9 @@ class Variance:
         self.session.commit()
     
     def update_all_actuals_and_variances(self):
-        categories = self.session.query(Category).all()
-        for category in categories:
-            self. calculate_category_actual_and_variance(category)
+        budgets = self.session.query(Budget).all()
+        for budget in budgets:
+            self. calculate_budget_actual_and_variance(budget)
         
         all_income_types = self.session.query(IncomeType).all()
         for income_type in all_income_types:

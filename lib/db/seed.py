@@ -1,6 +1,6 @@
 import random
 from faker import Faker 
-from models import Category, Expense, Income, IncomeType, engine, Base
+from models import Budget, Expense, Income, IncomeType, engine, Base
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 
@@ -9,24 +9,24 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def generate_seed_data():
-    categories = ['Food', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Travel', 'Gifts', 'Medical', 'Personal', 'Pets']
+    budget_categories = ['Food', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Travel', 'Gifts', 'Medical', 'Personal', 'Pets']
     
-    category_instances = []
+    budget_category_instances = []
 
     income_types = ['Paycheck', 'Bonus']
 
     income_type_instances = []
 
-    for category_name in categories:
-        category = Category(
-            category=category_name, 
+    for budget_category in budget_categories:
+        budget = Budget(
+            category=budget_category, 
             budget=0.0,
             actual = 0.0,
             variance = 0.0
         )
 
-        session.add(category)
-        category_instances.append(category)
+        session.add(budget)
+        budget_category_instances.append(budget)
 
     for income_type_name in income_types:
         income_type = IncomeType(
@@ -41,9 +41,9 @@ def generate_seed_data():
 
     for _ in range(20):
         expense = Expense(
-            name=fake.text(max_nb_chars=15), 
+            description=fake.text(max_nb_chars=15), 
             amount=round(random.uniform(5, 100), 2),
-            category=random.choice(category_instances),
+            category=random.choice(budget_category_instances),
             date=fake.date_time_this_decade(tzinfo=None)
         )
 
@@ -59,8 +59,8 @@ def generate_seed_data():
 
         session.add(income)
     
-    for category in category_instances:
-        category.variance = category.budget - category.actual
+    for budget_category in budget_category_instances:
+        budget.variance = budget.budget - budget.actual
     
     for income_type in income_type_instances:
         income_type.variance = income_type.expected - income_type.actual

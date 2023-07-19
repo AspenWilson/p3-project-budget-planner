@@ -15,7 +15,7 @@ class Budget(Base):
     actual = Column(Float, default=0.0)
     variance = Column(Float, default=0.0)
 
-    expenses = relationship('Expense', back_populates='category')
+    expenses = relationship('Expense', back_populates='monthly_budget')
 
     def __repr__(self):
         return f'{self.category} (ID: {self.id})' 
@@ -25,14 +25,14 @@ class Expense(Base):
 
     id = Column (Integer, primary_key=True)
     date = Column(Date, nullable=False)
-    name = Column(String(100), nullable=False)
+    description = Column(String(100), nullable=False)
     amount = Column(Float, nullable=False)
 
-    category_id = Column(Integer, ForeignKey('categories.id'))
-    category = relationship('Category', back_populates='expenses')
+    category_id = Column(Integer, ForeignKey('monthly_budget.id'))
+    category = relationship('Budget', back_populates='expenses')
 
     def __repr__(self):
-        return f'Expense #{self.id}: {self.name}, ' + \
+        return f'Expense #{self.id}: {self.description}, ' + \
             f'Amount: ${self.amount:.2f}, ' + \
             f'Date: {self.date}, ' + \
             f'Category: {self.category}'

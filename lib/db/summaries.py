@@ -19,7 +19,7 @@ class MonthSummary:
         return total_income or 0.0
 
     def get_budget(self, month, year):
-        budget = self.session.query(func.sum(Category.budget)).scalar()
+        budget = self.session.query(func.sum(Budget.budget)).scalar()
         return budget or 0.0
 
     def view_monthly_summary(self):

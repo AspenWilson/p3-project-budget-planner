@@ -2,7 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-class Budget:
+class SetBudget:
     def __init__(self):
         Session = sessionmaker(bind=engine)
         self.session = Session()
@@ -13,11 +13,11 @@ class Budget:
         budgets = self.session.query(Budget).all()
         total_budget = 0
 
-        for category in budgets:
+        for budget in budgets:
             percent = float(input(f"Enter the percentage of income to allocate for {budget.category}: "))
-            budget = (percent/100) * total_income
-            total_budget += budget
-            budget.budget = budget
+            new_budget = (percent/100) * total_income
+            total_budget += new_budget
+            budget.budget = new_budget
             self.session.commit()
         
         remaining_budget = total_income - total_budget

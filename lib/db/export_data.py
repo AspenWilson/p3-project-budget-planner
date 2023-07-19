@@ -11,7 +11,7 @@ def export_to_excel(table_name, data, output_dir):
     output_file = os.path.join(output_dir, f"{table_name}.xlsx")
     df.to_excel(output_file, index=False)
 
-def export_budget():
+def export_budgets():
     Session = sessionmaker(bind=engine)
     session = Session()
     budgets = session.query(Budget).all()
@@ -35,7 +35,7 @@ def export_expenses():
 
     data = [
         {
-            "Expense Name": expense.name,
+            "Expense Description": expense.description,
             "Amount": expense.amount,
             "Category Name": expense.category.name,
             "Date": expense.date
@@ -80,7 +80,7 @@ def export_income_types():
     export_to_excel("IncomeTypes", data, "output_directory")
 
 if __name__ == "__main__":
-    export_budget()
+    export_category()
     export_expenses()
     export_income()
     export_income_types()

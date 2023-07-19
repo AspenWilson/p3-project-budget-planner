@@ -22,13 +22,13 @@ class Welcome:
 #views and summaries
 
     def view_budget(self):
-        categories = self.session.query(Category).all()
+        budgets = self.session.query(Budget).all()
 
-        for category in categories:
-            print(f'{category.name}: Budget - ${category.budget:.2f}')
+        for budget in budgets:
+            print(f'{budget.category}: Budget - ${budget.budget:.2f}')
             print('Expenses')
             
-            expenses = category.expenses
+            expenses = budget.expenses
             if expenses:
                 for expense in expenses:
                     print(f'\t{expense.name}: ${expense.amount:.2f}')

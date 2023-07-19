@@ -9,7 +9,7 @@ class AddData:
         self.session = Session()
 
     def add_expense(self):
-        name = input('Enter the name of the expense: ')
+        description = input('Enter the description of the expense: ')
         
         while True:
             amount_str = input('Enter the amount for the expense: $')
@@ -31,7 +31,7 @@ class AddData:
         
         category = self.session.query(Budget).filter_by(name=category_name).first()
         if category:
-            expense = Expense(name=name, amount=amount, date=date, category=category)
+            expense = Expense(description=description, amount=amount, date=date, category=category)
             self.session.add(expense)
             self.session.commit()
             print('Expense added successfully!')
@@ -70,7 +70,7 @@ class AddData:
             print(f'Current expense categories: {self.session.query(Budget).all()}')
             return
 
-        category = Budget(name=category_name)
+        category = Budget(category=category_name)
         self.session.add(category)
         self.session.commit()
         print('Category added successfully!')
