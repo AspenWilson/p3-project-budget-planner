@@ -15,7 +15,7 @@ class Budget(Base):
     actual = Column(Float, default=0.0)
     variance = Column(Float, default=0.0)
 
-    expenses = relationship('Expense', back_populates='monthly_budget')
+    expenses = relationship('Expense', back_populates='budget')
 
     def __repr__(self):
         return f'{self.category} (ID: {self.id})' 
