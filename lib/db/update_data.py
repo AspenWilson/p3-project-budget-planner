@@ -110,3 +110,12 @@ class UpdateData:
         self.session.commit()
         print(f"Income with ID {income_id} updated successfully.")
         print(f"Updated income details: {income}")
+    
+    def update_expected_income(self):
+        income_sources = self.session.query(IncomeType).all()
+
+        for income_source in income_sources:
+            expected_income = float(input(f"Enter your expected monthly income from {income_source}: $"))
+            income_source.expected = expected_income
+            self.session.commit()
+            print(f"Expected income for {income_source} has been successfully updated to ${expected_income}!")

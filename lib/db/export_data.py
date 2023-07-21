@@ -80,7 +80,7 @@ def export_income_types():
     export_to_excel("IncomeTypes", data, "output_directory")
 
 if __name__ == "__main__":
-    export_category()
+    export_budgets()
     export_expenses()
     export_income()
     export_income_types()

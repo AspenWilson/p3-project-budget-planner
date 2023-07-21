@@ -85,6 +85,14 @@ def update_expense():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
+@cli.command(name='16')
+def update_expected_income():
+    update_data = UpdateData()
+    update_data.update_expected_income()
+
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
+
 #commands from delete_data.py
 
 @cli.command(name='10')
@@ -107,12 +115,10 @@ def delete_income_type():
     delete_data = DeleteData()
     delete_data.delete_income_type()
 
-@cli.command(name='16')
+@cli.command(name='17')
 def delete_seed_data():
     delete_data = DeleteData()
     delete_data.delete_seed_data()
-
-
 
 #commands from variances.py
 
@@ -124,7 +130,7 @@ def update_all_actuals_and_variances():
 #commands from export_data.py
 @cli.command(name='13')
 def export_all_data():
-    export_category()
+    export_budgets()
     export_expenses()
     export_income()
     export_income_types()

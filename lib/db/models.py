@@ -38,7 +38,7 @@ class Expense(Base):
             f'Category: {self.category}'
 
 class IncomeType(Base):
-    __tablename__ = 'income_type'
+    __tablename__ = 'monthly_income'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable=False)
@@ -46,7 +46,7 @@ class IncomeType(Base):
     actual = Column(Float, default=0.0)
     variance = Column(Float, default=0.0)
 
-    incomes = relationship('Income', back_populates='income_type')
+    incomes = relationship('Income', back_populates='monthly_income')
 
     def __repr__(self):
         return f'{self.name} (ID: {self.id})'
@@ -59,7 +59,7 @@ class Income(Base):
     name = Column(String(100), nullable = False)
     amount = Column(Float, nullable= False)
 
-    income_type_id = Column(Integer, ForeignKey('income_type.id'))
+    income_type_id = Column(Integer, ForeignKey('monthly_income.id'))
     
     income_type = relationship('IncomeType', back_populates='incomes')
 
