@@ -4,6 +4,7 @@ from models import Budget, Expense, Income, IncomeType, engine, Base
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 
+Base.metadata.create_all(engine)
 fake = Faker()
 Session = sessionmaker(bind=engine)
 session = Session()

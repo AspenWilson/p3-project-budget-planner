@@ -9,10 +9,10 @@ class AddData:
         self.session = Session()
 
     def add_expense(self):
-        description = input('Enter the description of the expense: ')
+        description = input('Enter the description for this new expense expense: ')
         
         while True:
-            amount_str = input('Enter the amount for the expense: $')
+            amount_str = input('Enter the amount for the new expense: $')
             try:
                 amount = float(amount_str)
                 break  
@@ -20,16 +20,16 @@ class AddData:
                 print('Invalid amount. Please enter a valid number.')
         
         while True:
-            date_str = input('Enter the date (YYYY-MM-DD) for the expense: ')
+            date_str = input('Enter the date (YYYY-MM-DD) for the new expense: ')
             try:
                 date = datetime.strptime(date_str, '%Y-%m-%d')
                 break 
             except ValueError:
                 print('Invalid date format. Please use the format YYYY-MM-DD.')
 
-        category_name = input('Enter the category for the expense: ')
+        category_name = input('Enter the category for the new expense: ')
         
-        category = self.session.query(Budget).filter_by(name=category_name).first()
+        category = self.session.query(Budget).filter_by(category=category_name).first()
         if category:
             expense = Expense(description=description, amount=amount, date=date, category=category)
             self.session.add(expense)
