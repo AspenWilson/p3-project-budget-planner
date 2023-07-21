@@ -98,9 +98,21 @@ def delete_income():
     delete_data.delete_income()
 
 @cli.command(name='14')
+def delete_expense_category():
+    delete_data = DeleteData()
+    delete_data.delete_expense_category()
+
+@cli.command(name='15')
+def delete_income_type():
+    delete_data = DeleteData()
+    delete_data.delete_income_type()
+
+@cli.command(name='16')
 def delete_seed_data():
     delete_data = DeleteData()
     delete_data.delete_seed_data()
+
+
 
 #commands from variances.py
 

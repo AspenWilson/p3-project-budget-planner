@@ -18,16 +18,44 @@ class UpdateData:
             return
         else:
             print(f"Expense details: {expense}")
-            amount_str = input('Enter the updated amount for this expense entry: $')
-            try:
-                amount = float(amount_str) 
-            except ValueError:
-                print('Invalid amount. Please enter a valid number.')
-                return
-        
-        expense.amount = amount
+            update_to = int(input('Which part of this entry would you like to update? Enter 1 for the date, 2 for the amount, 3 for the category, and 4 for the description: '))
+
+            if update_to == 1:
+                date_str = input('Enter the updated date (YYYY-MM-DD) for this expense entry: ')
+                try:
+                    date = datetime.strptime(date_str, '%Y-%m-%d')
+                    expense.date = date  
+                except ValueError:
+                    print('Invalid date format. Please use the format YYYY-MM-DD.')
+                    return
+
+            if update_to == 2:
+                amount_str = input('Enter the updated amount for this expense entry: $')
+                try:
+                    amount = float(amount_str)
+                    expense.amount = amount
+                except ValueError:
+                    print('Invalid amount. Please enter a valid number.')
+                    return
+
+            if update_to == 3:
+                available_categories = self.session.query(Budget).all()
+                print(f'Available expense categories: {available_categories}')
+                new_category= input('Enter the new category for this expense entry: ')
+
+                category = self.session.query(Budget).filter_by(category=new_category).first()
+                if category:
+                    expense.category = category
+                else:
+                    print('Invalid expense category. Please enter a valid category or create a new category by using the command python cli.py 6.')
+                    return
+
+            if update_to == 4:
+                new_description = input('Enter the new description for this expense entry: ')
+                expense.description = new_description
+
         self.session.commit()
-        print(f"Expense with ID {expense_id} amount updated to ${amount} successfully.")
+        print(f"Expense with ID {expense_id} updated successfully.")
         print(f"Updated expense details: {expense}")
 
     def update_income(self):
@@ -39,14 +67,46 @@ class UpdateData:
             return
         else:
             print(f"Income details: {income}")
-            amount_str = input('Enter the updated amount for this income entry: $')
-            try:
-                amount = float(amount_str) 
-            except ValueError:
-                print('Invalid amount. Please enter a valid number.')
+            update_to = int(input('Which part of this entry would you like to update? Enter 1 for the date, 2 for the name, 3 for the amount, and 4 for the income type: '))
+
+            if update_to == 1:
+                date_str = input('Enter the updated date (YYYY-MM-DD) for this income entry: ')
+                try:
+                    date = datetime.strptime(date_str, '%Y-%m-%d')
+                    income.date = date  
+                except ValueError:
+                    print('Invalid date format. Please use the format YYYY-MM-DD.')
+                    return
+
+            if update_to == 2:
+                new_name = input('Enter the new name for this income entry: ')
+                income.name = new_name
+
+            if update_to == 3:
+                amount_str = input('Enter the updated amount for this income entry: $')
+                try:
+                    amount = float(amount_str)
+                    income.amount = amount
+                except ValueError:
+                    print('Invalid amount. Please enter a valid number.')
+                    return
+
+            if update_to == 4:
+                available_income_types = self.session.query(IncomeType).all()
+                print(f'Available income types: {available_income_types}')
+                new_income_type= input('Enter the new income type for this income entry: ')
+
+                income_type = self.session.query(IncomeType).filter_by(name=new_income_type).first()
+                if income_type:
+                    income.income_type = income_type
+                else:
+                    print('Invalid income type. Please enter a valid income type or create a new income type by using the command python cli.py 7.')
+                    return
+            
+            if update_to > 4:
+                print('Invalid entry. Please select from the available options.')
                 return
-        
-        income.amount = amount
+
         self.session.commit()
-        print(f"Income with ID {income_id} amount updated to ${amount} successfully.")
+        print(f"Income with ID {income_id} updated successfully.")
         print(f"Updated income details: {income}")

@@ -41,3 +41,25 @@ class DeleteData:
             print('Seed data has been deleted.')
         else:
             print('Operation canceled. Seed data was not deleted.')
+    
+    def delete_expense_category(self):
+        expense_category_id = int(input("Enter the ID of the expense category you'd like to delete: "))
+
+        category = self.session.query(Budget).get(expense_category_id)
+        if category:
+            self.session.delete(category)
+            self.session.commit()
+            print(f"Expense category {category} deleted successfully!")
+        else:
+            print(f"Expense category with ID {expense_category_id} not found.")
+    
+    def delete_income_type(self):
+        income_type_id = int(input("Enter the ID of the income type you'd like to delete: "))
+
+        income_type = self.session.query(IncomeType).get(income_type_id)
+        if income_type:
+            self.session.delete(income_type)
+            self.session.commit()
+            print (f"Income type {income_type} deleted successfully!")
+        else:
+            print(f'Income type with ID {income_type_id} not found.')

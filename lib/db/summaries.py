@@ -34,9 +34,9 @@ class MonthSummary:
         budget = self.get_budget(current_month, current_year)
 
         print(f"Summary for {datetime.now().strftime('%B %Y')}:")
-        print(f"Total Expenses: ${total_expenses:.2f}")
-        print(f"Total Income: ${total_income:.2f}")
-        print(f"Budget: ${budget:.2f}")
+        print(f"Total Monthly Expenses: ${total_expenses:.2f}")
+        print(f"Total Monthly Income: ${total_income:.2f}")
+        print(f"Monthly Budget: ${budget:.2f}")
         print(f"Variance: ${budget - total_expenses:.2f}")
 
 

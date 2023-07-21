@@ -33,7 +33,7 @@ class Welcome:
         budgets = self.session.query(Budget).all()
 
         for budget in budgets:
-            print(f'{budget.category}: Budget - ${budget.budget:.2f}')
+            print(f'{budget.category}:')
             print('Expenses')
             
             expenses = budget.expenses

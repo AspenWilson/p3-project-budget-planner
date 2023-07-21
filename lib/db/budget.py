@@ -12,9 +12,12 @@ class SetBudget:
 
         budgets = self.session.query(Budget).all()
         total_budget = 0
+        remaining_percent = 100
 
         for budget in budgets:
             percent = float(input(f"Enter the percentage of income to allocate for {budget.category}: "))
+            remaining_percent -= percent
+            print(f"Remaining percentage of budget: {remaining_percent}%.")
             new_budget = (percent/100) * total_income
             total_budget += new_budget
             budget.budget = new_budget
