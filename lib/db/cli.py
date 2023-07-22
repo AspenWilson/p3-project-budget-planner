@@ -15,7 +15,7 @@ def cli():
 
 #commands from welcome.py
 
-@cli.command(name='0')
+@cli.command(name='w')
 def welcome():
     welcome = Welcome()
     welcome.welcome_message()
@@ -41,7 +41,7 @@ def monthly_summary():
 
 #commands from add_data
 
-@cli.command(name='4')
+@cli.command(name='a1')
 def add_expense():
     add_data = AddData()
     add_data.add_expense()
@@ -49,7 +49,7 @@ def add_expense():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
-@cli.command(name='5')
+@cli.command(name='a2')
 def add_income():
     add_data = AddData()
     add_data.add_income()
@@ -57,19 +57,19 @@ def add_income():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
-@cli.command(name='6')
+@cli.command(name='a3')
 def add_expense_category():
     add_data = AddData()
     add_data.add_expense_category()
 
-@cli.command(name='7')
+@cli.command(name='a4')
 def add_income_type():
     add_data = AddData()
     add_data.add_income_type()
 
 #commands from update_data.py
 
-@cli.command(name='8')
+@cli.command(name='u2')
 def update_income():
     update_data = UpdateData()
     update_data.update_income()
@@ -77,7 +77,7 @@ def update_income():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
-@cli.command(name='9')
+@cli.command(name='u1')
 def update_expense():
     update_data = UpdateData()
     update_data.update_expense()
@@ -85,7 +85,7 @@ def update_expense():
     variances = Variance()
     variances.update_all_actuals_and_variances()
 
-@cli.command(name='16')
+@cli.command(name='u4')
 def update_expected_income():
     update_data = UpdateData()
     update_data.update_expected_income()
@@ -95,22 +95,22 @@ def update_expected_income():
 
 #commands from delete_data.py
 
-@cli.command(name='10')
+@cli.command(name='d1')
 def delete_expense():
     delete_data = DeleteData()
     delete_data.delete_expense()
 
-@cli.command(name='11')
+@cli.command(name='d2')
 def delete_income():
     delete_data = DeleteData()
     delete_data.delete_income()
 
-@cli.command(name='14')
+@cli.command(name='d3')
 def delete_expense_category():
     delete_data = DeleteData()
     delete_data.delete_expense_category()
 
-@cli.command(name='15')
+@cli.command(name='d4')
 def delete_income_type():
     delete_data = DeleteData()
     delete_data.delete_income_type()
@@ -122,13 +122,14 @@ def delete_seed_data():
 
 #commands from variances.py
 
-@cli.command(name='12')
+@cli.command(name='u3')
 def update_all_actuals_and_variances():
     variances = Variance()
     variances.update_all_actuals_and_variances()
+    print('All monthly actuals and variances have been updated successfully!')
 
 #commands from export_data.py
-@cli.command(name='13')
+@cli.command(name='e1')
 def export_all_data():
     export_budgets()
     export_expenses()

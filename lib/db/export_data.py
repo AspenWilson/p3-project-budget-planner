@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
+from helpers import all_categories, all_expenses, all_income_entries, all_income_types
 
 def export_to_excel(table_name, data, output_dir):
     if not os.path.exists(output_dir):
@@ -14,7 +15,6 @@ def export_to_excel(table_name, data, output_dir):
 def export_budgets():
     Session = sessionmaker(bind=engine)
     session = Session()
-    budgets = session.query(Budget).all()
 
     data = [
         {
@@ -23,24 +23,23 @@ def export_budgets():
             "Actual": budget.actual,
             "Variance": budget.variance
         }
-        for budget in budgets
+        for budget in all_categories
     ]
 
-    export_to_excel("Budget", data, "output_directory")
+    export_to_excel("Monthly Budget", data, "output_directory")
 
 def export_expenses():
     Session = sessionmaker(bind=engine)
     session = Session()
-    expenses = session.query(Expense).all()
 
     data = [
         {
             "Expense Description": expense.description,
             "Amount": expense.amount,
-            "Category Name": expense.category.name,
+            "Category Name": expense.category,
             "Date": expense.date
         }
-        for expense in expenses
+        for expense in all_expenses
     ]
 
     export_to_excel("Expenses", data, "output_directory")
@@ -48,7 +47,6 @@ def export_expenses():
 def export_income():
     Session = sessionmaker(bind=engine)
     session = Session()
-    incomes = session.query(Income).all()
 
     data = [
         {
@@ -57,7 +55,7 @@ def export_income():
             "Date": income.date,
             "Income Type": income.income_type.name
         }
-        for income in incomes
+        for income in all_income_entries
     ]
 
     export_to_excel("Income", data, "output_directory")
@@ -65,7 +63,6 @@ def export_income():
 def export_income_types():
     Session = sessionmaker(bind=engine)
     session = Session()
-    income_types = session.query(IncomeType).all()
 
     data = [
         {
@@ -74,10 +71,10 @@ def export_income_types():
             "Actual": income_type.actual,
             "Variance": income_type.variance
         }
-        for income_type in income_types
+        for income_type in all_income_types
     ]
 
-    export_to_excel("IncomeTypes", data, "output_directory")
+    export_to_excel("Monthly Income", data, "output_directory")
 
 if __name__ == "__main__":
     export_budgets()

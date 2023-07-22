@@ -1,6 +1,7 @@
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from helpers import all_categories, all_income_types
 
 class DeleteData:
 
@@ -13,9 +14,15 @@ class DeleteData:
 
         income = self.session.query(Income).get(income_id)
         if income:
-            self.session.delete(income)
-            self.session.commit()
-            print(f"Income with ID {income_id} deleted successfully!")
+            print(f"Income entry details: {income}")
+            choice = input("Are you sure to want to delete this entry? y/n: ")
+            
+            if choice == 'y':
+                self.session.delete(income)
+                self.session.commit()
+                print(f"Income with ID {income_id} deleted successfully!")
+            else: 
+                print('Income entry deletion cancelled by user.')
         else:
             print(f"Income with ID {income_id} not found.")
 
@@ -24,9 +31,15 @@ class DeleteData:
 
         expense = self.session.query(Expense).get(expense_id)
         if expense:
-            self.session.delete(expense)
-            self.session.commit()
-            print(f"Expense with ID {expense_id} deleted successfully!")
+            print(f"Expense entry details: {expense}")
+            choice = input("Are you sure to want to delete this entry? y/n: ")
+            
+            if choice == 'y':
+                self.session.delete(expense)
+                self.session.commit()
+                print(f"Expense with ID {expense_id} deleted successfully!")
+            else:
+                print('Expense entry deletion cancelled by user.')
         else:
             print(f"Expense with ID {expense_id} not found.")
     
@@ -40,26 +53,42 @@ class DeleteData:
             self.session.commit()
             print('Seed data has been deleted.')
         else:
-            print('Operation canceled. Seed data was not deleted.')
+            print('Operation cancelled. Seed data was not deleted.')
     
     def delete_expense_category(self):
+
+        print(f'All expense categories: {all_categories}')
         expense_category_id = int(input("Enter the ID of the expense category you'd like to delete: "))
 
         category = self.session.query(Budget).get(expense_category_id)
         if category:
-            self.session.delete(category)
-            self.session.commit()
-            print(f"Expense category {category} deleted successfully!")
+            print(f'{category}')
+            choice = input('WARNING: You are about to delete an expense category. This action cannot be undone. You should ensure there are no expenses currently tagged to this category. Are you sure you want to delete? y/n: ')
+            
+            if choice == 'y':
+                self.session.delete(category)
+                self.session.commit()
+                print(f"Expense category {category} deleted successfully!")
+            else:
+                print('Expense category deletion cancelled by user.')
         else:
             print(f"Expense category with ID {expense_category_id} not found.")
     
     def delete_income_type(self):
+
+        print(f"Current income types: {all_income_types}")
         income_type_id = int(input("Enter the ID of the income type you'd like to delete: "))
 
         income_type = self.session.query(IncomeType).get(income_type_id)
         if income_type:
-            self.session.delete(income_type)
-            self.session.commit()
-            print (f"Income type {income_type} deleted successfully!")
+            print(f'{income_type}')
+            choice = input('WARNING: You are about to delete an income type. This action cannot be undone. You should ensure there are no income entries currently tagged to this income type. Are you sure you want to delete? y/n: ')
+            
+            if choice == 'y':
+                self.session.delete(income_type)
+                self.session.commit()
+                print(f"Income type {income_type} deleted successfully!")
+            else:
+                print('Expense category deletion cancelled by user.')
         else:
             print(f'Income type with ID {income_type_id} not found.')

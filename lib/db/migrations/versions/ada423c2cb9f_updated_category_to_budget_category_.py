@@ -18,9 +18,11 @@ depends_on = None
 
 def upgrade():
     pass
+    # with op.batch_alter_table('income_type', schema=None) as batch_op:
+    #     batch_op.rename_table('monthly_income')
 
-
-
-def downgrade(): 
+def downgrade():
     pass
+    # with op.batch_alter_table('monthly_income', schema=None) as batch_op:
+    #     batch_op.rename_table('income_type')
     # ### end Alembic commands ###

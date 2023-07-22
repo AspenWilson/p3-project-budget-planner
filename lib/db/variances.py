@@ -2,6 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from sqlalchemy import extract, func
+from helpers import all_categories, all_income_types
 
 class Variance:
 
@@ -54,17 +55,15 @@ class Variance:
         else:
             actual = 0
 
-        variance = income_type.expected - actual
+        variance = actual - income_type.expected
         income_type.actual = actual
         income_type.variance = variance
         self.session.commit()
     
     def update_all_actuals_and_variances(self):
-        budgets = self.session.query(Budget).all()
-        for budget in budgets:
+        for budget in all_categories:
             self.calculate_budget_actual_and_variance(budget)
         
-        all_income_types = self.session.query(IncomeType).all()
         for income_type in all_income_types:
             self.calculate_income_type_actual_and_variance(income_type)
-        print('All monthly actuals and variances have been updated successfully!')
+

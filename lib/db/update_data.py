@@ -2,6 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from variances import Variance
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from helpers import all_categories, all_income_types
 
 class UpdateData:
 
@@ -39,8 +40,7 @@ class UpdateData:
                     return
 
             if update_to == 3:
-                available_categories = self.session.query(Budget).all()
-                print(f'Available expense categories: {available_categories}')
+                print(f'Available expense categories: {all_categories}')
                 new_category= input('Enter the new category for this expense entry: ')
 
                 category = self.session.query(Budget).filter_by(category=new_category).first()
@@ -92,8 +92,7 @@ class UpdateData:
                     return
 
             if update_to == 4:
-                available_income_types = self.session.query(IncomeType).all()
-                print(f'Available income types: {available_income_types}')
+                print(f'Available income types: {all_income_types}')
                 new_income_type= input('Enter the new income type for this income entry: ')
 
                 income_type = self.session.query(IncomeType).filter_by(name=new_income_type).first()
@@ -112,9 +111,8 @@ class UpdateData:
         print(f"Updated income details: {income}")
     
     def update_expected_income(self):
-        income_sources = self.session.query(IncomeType).all()
 
-        for income_source in income_sources:
+        for income_source in all_income_types:
             expected_income = float(input(f"Enter your expected monthly income from {income_source}: $"))
             income_source.expected = expected_income
             self.session.commit()
