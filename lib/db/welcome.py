@@ -13,7 +13,7 @@ class Welcome:
         print("Welcome to your Budget Planner CLI!")
         print("-----------------------------------")
         print("You have many options to choose from to help you set and maintain your budget. Your options are listed below. To call these commands, simply enter python cli.py and then enter the letter/number of the command. If you ever need to see your options, type 'python cli.py w' into your terminal:")
-        print("--> 1. View Budget: This shows you all your expenses, broken out by category.")
+        print("--> 1. View Budget: This shows you all your expenses for the year, broken out by category.")
         print("--> 2. Set Budget: Enter you expected monthly income and set your monthly budget by allocating a percent of your income to each budget category.")
         print("--> 3. Monthly Summary: View a summary of your total expenses, total income, total budget, and the current variance between your expenses and your budget for the current month. ")
         print("-----------------------------------")

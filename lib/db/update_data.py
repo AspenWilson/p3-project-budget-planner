@@ -11,6 +11,9 @@ class UpdateData:
         self.session = Session()
 
     def update_expense(self):
+        print('Command U1: Update an expense entry')
+        print("-----------------------------------")
+
         expense_id = int(input("Enter the ID of the expense entry you want to update: "))
 
         expense = self.session.query(Expense).get(expense_id)
@@ -59,6 +62,9 @@ class UpdateData:
         print(f"Updated expense details: {expense}")
 
     def update_income(self):
+        print('Command U2: Update an income entry')
+        print("-----------------------------------")
+
         income_id = int(input("Enter the ID of the income entry you want to update: "))
 
         income = self.session.query(Income).get(income_id)
@@ -111,6 +117,8 @@ class UpdateData:
         print(f"Updated income details: {income}")
     
     def update_expected_income(self):
+        print('Command U4: Update expected income by income type')
+        print("-----------------------------------")
 
         for income_source in all_income_types:
             expected_income = float(input(f"Enter your expected monthly income from {income_source}: $"))

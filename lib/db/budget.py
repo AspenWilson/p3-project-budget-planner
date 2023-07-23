@@ -9,6 +9,8 @@ class SetBudget:
         self.session = Session()
 
     def set_budget(self):
+        print('Command 2: Set your monthly budget by category, based on expected income')
+        print("-----------------------------------")
         total_income = float(input("Enter your expected total monthly income: $"))
 
         total_budget = 0

@@ -61,6 +61,8 @@ class Variance:
         self.session.commit()
     
     def update_all_actuals_and_variances(self):
+        print('Command U3: Update actual and variance numbers for Monthly Budget and Monthly Income')
+        print("-----------------------------------")
         for budget in all_categories:
             self.calculate_budget_actual_and_variance(budget)
         

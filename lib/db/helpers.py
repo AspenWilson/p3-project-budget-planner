@@ -9,3 +9,4 @@ all_categories = session.query(Budget).all()
 all_expenses = session.query(Expense).all()
 all_income_types = session.query(IncomeType).all()
 all_income_entries = session.query(Income).all()
+

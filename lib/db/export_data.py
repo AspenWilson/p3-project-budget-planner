@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+from datetime import datetime
+from sqlalchemy import extract, func
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from helpers import all_categories, all_expenses, all_income_entries, all_income_types
@@ -42,7 +44,47 @@ def export_expenses():
         for expense in all_expenses
     ]
 
-    export_to_excel("Expenses", data, "output_directory")
+    export_to_excel("All Expenses", data, "output_directory")
+
+def export_yearly_expenses():
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    current_year = datetime.now().year
+
+    yearly_expenses = session.query(Expense).filter(extract('year', Expense.date) == current_year).all()
+
+    data = [
+        {
+            "Expense Description": expense.description,
+            "Amount": expense.amount,
+            "Category Name": expense.category,
+            "Date": expense.date
+        }
+        for expense in yearly_expenses
+    ]
+
+    export_to_excel("Yearly Expenses", data, "output_directory")
+
+def export_monthly_expenses():
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    current_year = datetime.now().year
+    current_month = datetime.now().month
+
+
+    monthly_expenses = session.query(Expense).filter(extract('year', Expense.date) == current_year, extract('month', Expense.date) == current_month).all()
+
+    data = [
+        {
+            "Expense Description": expense.description,
+            "Amount": expense.amount,
+            "Category Name": expense.category,
+            "Date": expense.date
+        }
+        for expense in monthly_expenses
+    ]
+
+    export_to_excel("Monthly Expenses", data, "output_directory")
 
 def export_income():
     Session = sessionmaker(bind=engine)
@@ -58,7 +100,46 @@ def export_income():
         for income in all_income_entries
     ]
 
-    export_to_excel("Income", data, "output_directory")
+    export_to_excel("All Income", data, "output_directory")
+
+def export_yearly_income():
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    current_year = datetime.now().year
+    yearly_income = session.query(Income).filter(extract('year', Income.date) == current_year).all()
+
+
+    data = [
+        {
+            "Income Name": income.name,
+            "Amount": income.amount,
+            "Date": income.date,
+            "Income Type": income.income_type.name
+        }
+        for income in yearly_income
+    ]
+
+    export_to_excel("Yearly Income Details", data, "output_directory")
+
+def export_monthly_income():
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    current_year = datetime.now().year
+    current_month = datetime.now().month
+
+    monthly_income = session.query(Income).filter(extract('year', Income.date) == current_year, extract('month', Income.date) == current_month).all()
+
+    data = [
+        {
+            "Income Name": income.name,
+            "Amount": income.amount,
+            "Date": income.date,
+            "Income Type": income.income_type.name
+        }
+        for income in monthly_income
+    ]
+
+    export_to_excel("Monthly Income Entries", data, "output_directory")
 
 def export_income_types():
     Session = sessionmaker(bind=engine)
@@ -75,6 +156,22 @@ def export_income_types():
     ]
 
     export_to_excel("Monthly Income", data, "output_directory")
+
+def export_all_data():
+    print('Command E1: Export all data')
+    print("-----------------------------------")
+
+    choice = input("You are about to export all your existing data. Before you proceed, have you deleted your current out_directory folder? y/n: ")
+
+    if choice == 'y':
+        export_budgets()
+        export_expenses()
+        export_income()
+        export_income_types()
+        print("Data exported successfully to the output_directory folder!")
+    else:
+        print('Delete your existing out_directory folder and then run this command again.')
+
 
 if __name__ == "__main__":
     export_budgets()

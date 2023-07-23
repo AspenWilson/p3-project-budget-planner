@@ -10,9 +10,12 @@ class DeleteData:
         self.session = Session()
 
     def delete_income(self):
+        print('Command D2: Delete an income entry')
+        print("-----------------------------------")
         income_id = int(input("Enter the ID of the income you want to delete: "))
 
         income = self.session.query(Income).get(income_id)
+        
         if income:
             print(f"Income entry details: {income}")
             choice = input("Are you sure to want to delete this entry? y/n: ")
@@ -27,6 +30,8 @@ class DeleteData:
             print(f"Income with ID {income_id} not found.")
 
     def delete_expense(self):
+        print('Command D1: Delete an expense entry')
+        print("-----------------------------------")
         expense_id = int(input("Enter the ID of the expense you want to delete:"))
 
         expense = self.session.query(Expense).get(expense_id)
@@ -56,11 +61,14 @@ class DeleteData:
             print('Operation cancelled. Seed data was not deleted.')
     
     def delete_expense_category(self):
+        print('Command D3: Delete an expense category')
+        print("-----------------------------------")
 
         print(f'All expense categories: {all_categories}')
         expense_category_id = int(input("Enter the ID of the expense category you'd like to delete: "))
 
         category = self.session.query(Budget).get(expense_category_id)
+        
         if category:
             print(f'{category}')
             choice = input('WARNING: You are about to delete an expense category. This action cannot be undone. You should ensure there are no expenses currently tagged to this category. Are you sure you want to delete? y/n: ')
@@ -75,11 +83,13 @@ class DeleteData:
             print(f"Expense category with ID {expense_category_id} not found.")
     
     def delete_income_type(self):
-
+        print('Command D4: Delete an income type')
+        print("-----------------------------------")
         print(f"Current income types: {all_income_types}")
         income_type_id = int(input("Enter the ID of the income type you'd like to delete: "))
 
         income_type = self.session.query(IncomeType).get(income_type_id)
+        
         if income_type:
             print(f'{income_type}')
             choice = input('WARNING: You are about to delete an income type. This action cannot be undone. You should ensure there are no income entries currently tagged to this income type. Are you sure you want to delete? y/n: ')

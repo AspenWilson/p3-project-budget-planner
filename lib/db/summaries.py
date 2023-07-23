@@ -2,6 +2,7 @@ from datetime import datetime
 from sqlalchemy import extract, func
 from sqlalchemy.orm import sessionmaker
 from models import Budget, Expense, Income, IncomeType, engine
+from helpers import all_categories
 
     
 class MonthSummary:
@@ -27,6 +28,9 @@ class MonthSummary:
         current_month = datetime.now().month
         current_year = datetime.now().year
 
+        print(f'Command 3: View your monthly summary for {current_month}/{current_year}')
+        print("-----------------------------------")
+
         total_expenses = self.get_total_expenses(current_month, current_year)
 
         total_income = self.get_total_income(current_month, current_year)
@@ -38,7 +42,24 @@ class MonthSummary:
         print(f"Total Monthly Income: ${total_income:.2f}")
         print(f"Monthly Budget: ${budget:.2f}")
         print(f"Variance: ${budget - total_expenses:.2f}")
+    
+    def view_monthly_expenses(self):
+        current_year = datetime.now().year
+        print(f'Command 1: View all expenses for {current_year}')
+        print("-----------------------------------")
 
+        for budget in all_categories:
+            print(f'{budget.category}:')
+            print('Expenses')
+
+            expenses = [expense for expense in budget.expenses if expense.date.year == current_year]
+            if expenses:
+                for expense in expenses:
+                    print(f'\t{expense.description}: ${expense.amount:.2f}')
+            else:
+                print('\tNo expenses for this category.')
+
+            print()
 
     def summary(self):
         total_income = sum([income.amount for income in self.session.query(Income).all()])
