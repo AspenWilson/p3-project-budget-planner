@@ -2,7 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from sqlalchemy import extract, func
-from helpers import all_categories, all_income_types, current_year, current_month
+from helpers import current_year, current_month, get_all
 
 class Variance:
 
@@ -59,9 +59,9 @@ class Variance:
     def update_all_actuals_and_variances(self):
         print('Command U3: Update actual and variance numbers for Monthly Budget and Monthly Income')
         print("-----------------------------------")
-        for budget in all_categories:
+        for budget in get_all(self.session, Budget):
             self.calculate_budget_actual_and_variance(budget)
         
-        for income_type in all_income_types:
+        for income_type in get_all(self.session, IncomeType):
             self.calculate_income_type_actual_and_variance(income_type)
 

@@ -2,7 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from variances import Variance
-from helpers import all_categories, all_income_types, get_existing_category, get_existing_income_type, date_entry, amount_entry, add_and_commit, line_print
+from helpers import date_entry, amount_entry, add_and_commit, line_print, get_first, get_all
 
 class AddData:
 
@@ -20,10 +20,10 @@ class AddData:
         
         date = date_entry('Enter the date (YYYY-MM-DD) for the new expense: ')
         
-        print(f"Available categories: {all_categories}")
+        print(f"Available categories: {get_all(self.session, Budget)}")
         category_name = input('Enter the category for the new expense: ')
         
-        existing_category = get_existing_category(self.session, category_name)
+        existing_category = get_first(self.session, Budget, 'category', category_name)
         if existing_category:
             expense = Expense(
                 description=description, 
@@ -36,8 +36,7 @@ class AddData:
             choice = input("Are you sure you want to add this expense entry? y/n: ")
             
             if choice == 'y':
-                add_and_commit(self.session, expense,'Expense entry added successfully!')
-                print(f'New expense entry details: {expense}')
+                add_and_commit(self.session, expense,'Expense entry added successfully!', f'New expense entry details: {expense}')
             else:
                 print('Expense entry cancelled by user.')
                 return
@@ -55,10 +54,10 @@ class AddData:
         
         date = date_entry('Enter the date (YYYY-MM-DD) for the expense: ')
 
-        print(f"Available income types: {all_income_types}")
+        print(f"Available income types: {get_all(self,session, IncomeType)}")
         income_type_name = input('Enter the income type for the new income entry: ')
 
-        existing_income_type = get_existing_income_type(self.session, income_type_name)
+        existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
         if existing_income_type:
             income = Income(
                 name=name, 
@@ -81,11 +80,11 @@ class AddData:
         print('Command A3: Add a new expense category')
         line_print()
 
-        print(f"Current expense categories: {all_categories}")
+        print(f"Current expense categories: {get_all(self.session, Budget)}")
         category_name = input('Enter the name of the new expense category: ')
 
-        existing_category = get_existing_category(self.session, category_name)
-        
+        existing_category = get_first(self.session, Budget, 'category', category_name)
+
         if existing_category:
             print('Category already exists. Please choose a different name or use existing category.')
             return
@@ -98,16 +97,16 @@ class AddData:
             )
 
         add_and_commit(self.session, new_category,'Category added successfully!')
-        print(f'Updated expense categories: {all_categories}')
+        print(f'Updated expense categories: {get_all(self.session, Budget)}')
     
     def add_income_type(self):
         print('Command A4: Add a new income type')
         line_print()
 
-        print(f"Current income types: {all_income_types}")
+        print(f"Current income types: {get_all(self.session, IncomeType)}")
         income_type_name = input('Enter the name of the new income type: ')
 
-        existing_income_type = get_existing_income_type(self.session, income_type_name)
+        existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
         if existing_income_type:
             print('Income type already exists. Please choose a different name or use existing category.')
             return
@@ -120,4 +119,4 @@ class AddData:
             )
 
         add_and_commit(self.session, new_income_type,'Income type added successfully!')
-        print(f"Updated income types: {all_income_types}")   
+        print(f"Updated income types: {get_all(self.session, IncomeType)}")   

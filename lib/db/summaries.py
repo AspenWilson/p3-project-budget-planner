@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy import extract, func
 from sqlalchemy.orm import sessionmaker
 from models import Budget, Expense, Income, IncomeType, engine
-from helpers import all_categories, current_month, current_year, get_total_expenses, get_total_income, line_print
+from helpers import current_month, current_year, line_print, get_total, get_all
 
     
 class MonthSummary:
@@ -11,20 +11,20 @@ class MonthSummary:
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
-    def get_budget(self, month, year):
-        budget = self.session.query(func.sum(Budget.budget)).scalar()
-        return budget or 0.0
+    # def get_budget(self, month, year):
+    #     budget = self.session.query(func.sum(Budget.budget)).scalar()
+    #     return budget or 0.0
 
     def view_monthly_summary(self):
 
-        print(f'Command 3: View your monthly summary for {current_month}/{current_year}')
+        print('Command 3: View your monthly summary for teh current month')
         line_print()
 
-        total_expenses = get_total_expenses(self.session, current_month, current_year)
+        total_expenses = get_total(self.session, Expense, current_month, current_year)
 
-        total_income = get_total_income(self.session, current_month, current_year)
+        total_income = get_total(self.session, Income, current_month, current_year)
 
-        budget = self.get_budget(current_month, current_year)
+        budget = self.session.query(func.sum(Budget.budget)).scalar()
 
         print(f"Summary for {datetime.now().strftime('%B %Y')}:")
         print(f"Total Monthly Expenses: ${total_expenses:.2f}")
@@ -37,7 +37,7 @@ class MonthSummary:
         print(f'Command 1: View all expenses for {current_year}')
         line_print()
 
-        for budget in all_categories:
+        for budget in get_all(self.session, Budget):
             print(f'{budget.category}:')
             print('Expenses')
 
@@ -51,5 +51,9 @@ class MonthSummary:
             print()
 
     def summary(self):
-        total_income = sum([income.amount for income in self.session.query(Income).all()])
-        total_expenses = sum([expense.amount for expense in self.session.query(Expense).all()])
+        total_income = sum([income.amount for income in get_all(self.session, Income)])
+        total_expenses = sum([expense.amount for expense in get_all(self.session, Expense)])
+
+        print (f"\nTotal Income: ${total_income:.2f}")
+        print (f"Total Expenses: ${total_expenses:.2f}")
+        print (f"Remaining Budget: ${total_income - total_expenses:.2f}\n")

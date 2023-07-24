@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import extract, func
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
-from helpers import all_categories, all_expenses, all_income_entries, all_income_types, current_month, current_year
+from helpers import current_month, current_year, get_all
 
 def export_to_excel(table_name, data, output_dir):
     if not os.path.exists(output_dir):
@@ -25,7 +25,7 @@ def export_budgets():
             "Actual": budget.actual,
             "Variance": budget.variance
         }
-        for budget in all_categories
+        for budget in get_all(self.session, Budget)
     ]
 
     export_to_excel("Monthly Budget", data, "output_directory")
@@ -41,7 +41,7 @@ def export_expenses():
             "Category Name": expense.category,
             "Date": expense.date
         }
-        for expense in all_expenses
+        for expense in get_all(self.session, Expense)
     ]
 
     export_to_excel("All Expenses", data, "output_directory")
@@ -93,7 +93,7 @@ def export_income():
             "Date": income.date,
             "Income Type": income.income_type.name
         }
-        for income in all_income_entries
+        for income in get_all(self.session, Income)
     ]
 
     export_to_excel("All Income", data, "output_directory")
@@ -146,7 +146,7 @@ def export_income_types():
             "Actual": income_type.actual,
             "Variance": income_type.variance
         }
-        for income_type in all_income_types
+        for income_type in get_all(self.session, IncomeType)
     ]
 
     export_to_excel("Monthly Income", data, "output_directory")

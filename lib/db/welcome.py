@@ -38,31 +38,6 @@ class Welcome:
         print("Export Data")
         print("--> e1. Export All Data: Export all your data into .xlsx files. Data will be exported into the output_directory folder.")
 
-#views and summaries
-
-    def view_budget(self):
-        budgets = self.session.query(Budget).all()
-
-        for budget in budgets:
-            print(f'{budget.category}:')
-            print('Expenses')
-            
-            expenses = budget.expenses
-            if expenses:
-                for expense in expenses:
-                    print(f'\t{expense.description}: ${expense.amount:.2f}')
-            else:
-                print('\tNo expenses for this category.')
-            
-            print()
-
-    def summary(self):
-        total_income = sum([income.amount for income in self.session.query(Income).all()])
-        total_expenses = sum([expense.amount for expense in self.session.query(Expense).all()])
-
-        print (f"\nTotal Income: ${total_income:.2f}")
-        print (f"Total Expenses: ${total_expenses:.2f}")
-        print (f"Remaining Budget: ${total_income - total_expenses:.2f}\n")
 
 
     

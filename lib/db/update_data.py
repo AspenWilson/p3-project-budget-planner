@@ -2,7 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from variances import Variance
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from helpers import all_categories, all_income_types, get_existing_category, get_existing_income_type, get_existing_entry, date_entry, amount_entry, commit_and_msg, line_print
+from helpers import get_existing_entry, date_entry, amount_entry, commit_and_msg, line_print, get_first, get_all
 
 class UpdateData:
 
@@ -33,10 +33,10 @@ class UpdateData:
                 expense.amount = amount
 
             if update_to == 3:
-                print(f'Available expense categories: {all_categories}')
+                print(f'Available expense categories: {get_all(self.session, Budget)}')
                 category_name = input('Enter the new category for this expense entry: ')
 
-                existing_category = get_existing_category(self.session, category_name)
+                existing_category = get_first(self.session, Budget,'category', category_name)
                 if existing_category:
                     expense.category = existing_category
                 else:
@@ -76,10 +76,10 @@ class UpdateData:
                 income.amount = amount
 
             if update_to == 4:
-                print(f'Available income types: {all_income_types}')
+                print(f'Available income types: {get_all(self.session, IncomeType)}')
                 income_type_name = input('Enter the new income type for this income entry: ')
 
-                existing_income_type = get_existing_income_type(self.session, income_type_name)
+                existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
                 if existing_income_type:
                     income.income_type = existing_income_type
                 else:
@@ -96,7 +96,7 @@ class UpdateData:
         print('Command U4: Update expected income by income type')
         line_print()
 
-        for income_type in all_income_types:
+        for income_type in get_all(self.session, IncomeType):
             expected_income = float(input(f"Enter your expected monthly income from {income_type}: $"))
             income_type.expected = expected_income
             commit_and_msg(self.session, "Success!", f"Expected income for {income_type} has been successfully updated to ${expected_income}!")

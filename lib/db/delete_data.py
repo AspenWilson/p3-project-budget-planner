@@ -1,7 +1,7 @@
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from helpers import all_categories, all_income_types, get_existing_entry, line_print, delete_and_commit
+from helpers import get_existing_entry, line_print, delete_and_commit, get_all
 
 class DeleteData:
 
@@ -62,7 +62,7 @@ class DeleteData:
         print('Command D3: Delete an expense category')
         line_print()
 
-        print(f'All expense categories: {all_categories}')
+        print(f'All expense categories: {get_all(self.session, Budget)}')
         expense_category_id = int(input("Enter the ID of the expense category you'd like to delete: "))
 
         category = get_existing_entry(self.session, Budget, expense_category_id)
@@ -82,7 +82,7 @@ class DeleteData:
         print('Command D4: Delete an income type')
         line_print()
 
-        print(f"Current income types: {all_income_types}")
+        print(f"Current income types: {get_all(self.session, IncomeType)}")
         income_type_id = int(input("Enter the ID of the income type you'd like to delete: "))
 
         income_type = get_existing_entry(self.session, IncomeType, income_type_id)

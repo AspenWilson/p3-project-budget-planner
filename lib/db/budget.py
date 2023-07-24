@@ -1,7 +1,7 @@
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from helpers import all_categories, line_print
+from helpers import all_categories, line_print, get_all
 
 class SetBudget:
     def __init__(self):
@@ -11,13 +11,13 @@ class SetBudget:
     def set_budget(self):
         print('Command 2: Set your monthly budget by category, based on expected income')
         line_print()
-        
+
         total_income = float(input("Enter your expected total monthly income: $"))
 
         total_budget = 0
         remaining_percent = 100
 
-        for budget in all_categories:
+        for budget in get_all(self.session, Budget):
             percent = float(input(f"Enter the percentage of income to allocate for {budget.category}: "))
             remaining_percent -= percent
             print(f"Remaining percentage of budget: {remaining_percent}%.")

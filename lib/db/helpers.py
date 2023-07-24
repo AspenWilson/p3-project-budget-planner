@@ -8,10 +8,6 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 #defining constants to use in other folders
-all_categories = session.query(Budget).all()
-all_expenses = session.query(Expense).all()
-all_income_types = session.query(IncomeType).all()
-all_income_entries = session.query(Income).all()
 
 current_year = datetime.now().year
 current_month = datetime.now().month
@@ -20,28 +16,24 @@ line_print = lambda: print("-----------------------------------")
 
 #defining functions to use in other folders
 
-#filtering functions
+#filtering/get functions
 
-def get_existing_category(session, category_name):
-    return session.query(Budget).filter_by(category=category_name).first()
+def get_all(session, modal):
+    return session.query(modal).all()
 
-def get_existing_income_type(session, income_type_name):
-    return session.query(IncomeType).filter_by(name=income_type_name).first()
+def get_first(session, model, attribute, value):
+    return session.query(model).filter(getattr(model, attribute) == value).first()
 
 def get_existing_entry(session, modal, key):
     return session.query(modal).get(key)
 
-def get_total_expenses(session, month, year):
-    total_expenses = session.query(func.sum(Expense.amount)).filter(extract('month',Expense.date) == month, extract('year', Expense.date) == year).scalar()
-    return total_expenses or 0.0
-
-def get_total_income(session, month, year):
-    total_income = session.query(func.sum(Income.amount)).filter(extract('month', Income.date) == month, extract('year', Income.date) == year).scalar()
-    return total_income or 0.0
+def get_total(session, modal, month, year):
+    total = session.query(func.sum(modal.amount)).filter(extract('month', modal.date) == month, extract('year', modal.date) == year).scalar()
+    return total or 0.0
 
 #data entry functions
 
-def date_entry(input_prompt='Enter the date (YYYY-MM-DD): '):
+def date_entry(input_prompt):
     while True:
         date_str = input(input_prompt)
         try:
@@ -64,7 +56,7 @@ def amount_entry(input_prompt):
 
 #session commits 
 
-def add_and_commit(session, obj, msg1):
+def add_and_commit(session, obj, msg1, msg2):
     session.add(obj)
     session.commit()
     print(msg1)
