@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy import extract, func
 from sqlalchemy.orm import sessionmaker
 from models import Budget, Expense, Income, IncomeType, engine
-from helpers import all_categories
+from helpers import all_categories, current_month, current_year, get_total_expenses, get_total_income, line_print
 
     
 class MonthSummary:
@@ -11,29 +11,18 @@ class MonthSummary:
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
-    def get_total_expenses(self, month, year):
-        total_expenses = self.session.query(func.sum(Expense.amount)).filter(extract('month', Expense.date) == month, extract('year', Expense.date) == year).scalar()
-        return total_expenses or 0.0
-
-    def get_total_income(self, month, year):
-        total_income = self.session.query(func.sum(Income.amount)).filter(extract('month', Income.date) == month, extract('year', Income.date) == year).scalar()
-        return total_income or 0.0
-
     def get_budget(self, month, year):
         budget = self.session.query(func.sum(Budget.budget)).scalar()
         return budget or 0.0
 
     def view_monthly_summary(self):
-        
-        current_month = datetime.now().month
-        current_year = datetime.now().year
 
         print(f'Command 3: View your monthly summary for {current_month}/{current_year}')
-        print("-----------------------------------")
+        line_print()
 
-        total_expenses = self.get_total_expenses(current_month, current_year)
+        total_expenses = get_total_expenses(self.session, current_month, current_year)
 
-        total_income = self.get_total_income(current_month, current_year)
+        total_income = get_total_income(self.session, current_month, current_year)
 
         budget = self.get_budget(current_month, current_year)
 
@@ -41,12 +30,12 @@ class MonthSummary:
         print(f"Total Monthly Expenses: ${total_expenses:.2f}")
         print(f"Total Monthly Income: ${total_income:.2f}")
         print(f"Monthly Budget: ${budget:.2f}")
-        print(f"Variance: ${budget - total_expenses:.2f}")
+        print(f"Income-to-Expenses Variance: ${total_income - total_expenses:.2f}")
     
     def view_monthly_expenses(self):
-        current_year = datetime.now().year
+
         print(f'Command 1: View all expenses for {current_year}')
-        print("-----------------------------------")
+        line_print()
 
         for budget in all_categories:
             print(f'{budget.category}:')

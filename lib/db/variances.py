@@ -2,7 +2,7 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from sqlalchemy import extract, func
-from helpers import all_categories, all_income_types
+from helpers import all_categories, all_income_types, current_year, current_month
 
 class Variance:
 
@@ -29,8 +29,6 @@ class Variance:
         return {income_type: total_income for income_type, total_income in income_by_type}
 
     def calculate_budget_actual_and_variance(self, budget_category):
-        current_month = datetime.now().month
-        current_year = datetime.now().year
 
         expenses_by_category = self.monthly_expenses_by_category(current_month, current_year)
 
@@ -45,8 +43,6 @@ class Variance:
         self.session.commit()
     
     def calculate_income_type_actual_and_variance(self, income_type):
-        current_month = datetime.now().month
-        current_year = datetime.now().year
 
         income_by_type = self.monthly_income_by_type(current_month, current_year)
 

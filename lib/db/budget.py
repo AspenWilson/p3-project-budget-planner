@@ -1,7 +1,7 @@
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from helpers import all_categories
+from helpers import all_categories, line_print
 
 class SetBudget:
     def __init__(self):
@@ -10,7 +10,8 @@ class SetBudget:
 
     def set_budget(self):
         print('Command 2: Set your monthly budget by category, based on expected income')
-        print("-----------------------------------")
+        line_print()
+        
         total_income = float(input("Enter your expected total monthly income: $"))
 
         total_budget = 0
