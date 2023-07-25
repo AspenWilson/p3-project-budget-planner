@@ -6,7 +6,7 @@ from update_data import UpdateData
 from variances import Variance
 from budget import SetBudget
 from summaries import MonthSummary
-from export_data import export_all_data
+from export_data import export_all_data. export_yearly_data, export_monthly_data
 
 
 @click.group()
@@ -132,6 +132,14 @@ def update_all_actuals_and_variances():
 @cli.command(name='e1')
 def export_total_data():
     export_all_data()
+
+@cli.command(name='e2')
+def export_total_data():
+    export_yearly_data()
+
+@cli.command(name='e3')
+def export_total_data():
+    export_monthly_data()
 
 if __name__ == '__main__':
     cli()

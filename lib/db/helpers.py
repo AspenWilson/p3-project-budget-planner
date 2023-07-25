@@ -54,6 +54,26 @@ def amount_entry(input_prompt):
             print('Invalid input. Please enter a valid number.')
     return amount
 
+
+#exporting functions 
+
+def generate_expense_data(expense):
+    return {
+        "Expense Description": expense.description,
+        "Amount": expense.amount,
+        "Category Name": expense.category.category,
+        "Date": expense.date
+    }
+
+def generate_income_data(income):
+    return {
+        "Income Name": income.name,
+        "Amount": income.amount,
+        "Date": income.date,
+        "Income Type": income.income_type.name
+    }
+
+
 #session commits 
 
 def add_and_commit(session, obj, msg1, msg2):

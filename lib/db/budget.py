@@ -1,7 +1,7 @@
 from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from helpers import all_categories, line_print, get_all
+from helpers import line_print, get_all
 
 class SetBudget:
     def __init__(self):
