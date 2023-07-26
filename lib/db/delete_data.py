@@ -32,7 +32,7 @@ class DeleteData:
         print('Command D1: Delete an expense entry')
         line_print()
 
-        expense_id = int(input("Enter the ID of the expense you want to delete:"))
+        expense_id = int(input("Enter the ID of the expense you want to delete: "))
 
         expense = get_existing_entry(self.session, Expense, expense_id)
         if expense:

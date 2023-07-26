@@ -6,6 +6,9 @@ from models import Budget, Expense, Income, IncomeType, engine
 from sqlalchemy.orm import sessionmaker
 from helpers import current_month, current_year, get_all, generate_expense_data, generate_income_data, line_print
 
+Session = sessionmaker(bind=engine)
+session = Session()
+
 def export_to_excel(table_name, data, output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -15,8 +18,6 @@ def export_to_excel(table_name, data, output_dir):
     df.to_excel(output_file, index=False)
 
 def export_budgets():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     data = [
         {
@@ -31,8 +32,6 @@ def export_budgets():
     export_to_excel("Monthly Budget", data, "output_directory")
 
 def export_expenses():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     data = [
         generate_expense_data(expense)
@@ -42,8 +41,6 @@ def export_expenses():
     export_to_excel("All Expenses", data, "output_directory")
 
 def export_yearly_expenses():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     yearly_expenses = session.query(Expense).filter(extract('year', Expense.date) == current_year).all()
 
@@ -55,8 +52,6 @@ def export_yearly_expenses():
     export_to_excel("Yearly Expenses", data, "output_directory")
 
 def export_monthly_expenses():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     monthly_expenses = session.query(Expense).filter(extract('year', Expense.date) == current_year, extract('month', Expense.date) == current_month).all()
 
@@ -68,8 +63,6 @@ def export_monthly_expenses():
     export_to_excel("Monthly Expenses", data, "output_directory")
 
 def export_income():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     data = [
         generate_income_data(income)
@@ -79,8 +72,6 @@ def export_income():
     export_to_excel("All Income", data, "output_directory")
 
 def export_yearly_income():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     yearly_income = session.query(Income).filter(extract('year', Income.date) == current_year).all()
 
@@ -91,9 +82,7 @@ def export_yearly_income():
 
     export_to_excel("Yearly Income Details", data, "output_directory")
 
-def export_monthly_income(self):
-    Session = sessionmaker(bind=engine)
-    session = Session()
+def export_monthly_income():
 
     monthly_income = session.query(Income).filter(extract('year', Income.date) == current_year, extract('month', Income.date) == current_month).all()
 
@@ -105,11 +94,14 @@ def export_monthly_income(self):
     export_to_excel("Monthly Income Entries", data, "output_directory")
 
 def export_income_types():
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     data = [
-        generate_income_data(income)
+        {
+        "Income Type": income_type.name, 
+        "Expected": income_type.expected, 
+        "Actual": income_type.actual,
+        "Variance:": income_type.variance
+        }
         for income_type in get_all(session, IncomeType)
     ]
 

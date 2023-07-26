@@ -16,14 +16,14 @@ class AddData:
 
         description = input('Enter the description for this new expense entry: ')
         
-        amount = amount_entry('Enter the amount for the new expense: $')
+        amount = amount_entry('Enter the amount for the new expense entry: $')
         
-        date = date_entry('Enter the date (YYYY-MM-DD) for the new expense: ')
+        date = date_entry('Enter the date (YYYY-MM-DD) for the new expense entry: ')
         
         print(f"Available categories: {get_all(self.session, Budget)}")
-        category_name = input('Enter the category for the new expense: ')
+        category_id = int(input('Enter the category ID for the new expense entry: '))
         
-        existing_category = get_first(self.session, Budget, 'category', category_name)
+        existing_category = get_first(self.session, Budget, 'id', category_id)
         if existing_category:
             expense = Expense(
                 description=description, 
@@ -42,7 +42,7 @@ class AddData:
                 return
 
         else:
-            print('Category not found. Please ensure the category exists.') 
+            print('Category not found. Please ensure the category ID exists.') 
     
     def add_income(self):
         print('Command A2: Add a new income entry')
@@ -52,12 +52,12 @@ class AddData:
         
         amount = amount_entry('Enter the amount for this income entry: $')
         
-        date = date_entry('Enter the date (YYYY-MM-DD) for the expense: ')
+        date = date_entry('Enter the date (YYYY-MM-DD) for this income entry: ')
 
-        print(f"Available income types: {get_all(self,session, IncomeType)}")
-        income_type_name = input('Enter the income type for the new income entry: ')
+        print(f"Available income types: {get_all(self.session, IncomeType)}")
+        income_type_id = input('Enter the income type ID for the new income entry: ')
 
-        existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
+        existing_income_type = get_first(self.session, IncomeType, 'id', income_type_id)
         if existing_income_type:
             income = Income(
                 name=name, 
@@ -70,8 +70,7 @@ class AddData:
         choice = input("Are you sure you want to add this income entry? y/n: ")
         
         if choice == 'y':
-            add_and_commit(self.session, income,'Income entry added successfully!')
-            print(f'New income entry details: {income}')
+            add_and_commit(self.session, income,'Income entry added successfully!',f'New income entry details: {income}')
         else:
             print('Income entry cancelled by user.')
             return
@@ -96,8 +95,7 @@ class AddData:
             variance=0
             )
 
-        add_and_commit(self.session, new_category,'Category added successfully!')
-        print(f'Updated expense categories: {get_all(self.session, Budget)}')
+        add_and_commit(self.session, new_category,'Category added successfully!',f'New expense category: {new_category.category}')
     
     def add_income_type(self):
         print('Command A4: Add a new income type')
@@ -107,6 +105,7 @@ class AddData:
         income_type_name = input('Enter the name of the new income type: ')
 
         existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
+        
         if existing_income_type:
             print('Income type already exists. Please choose a different name or use existing category.')
             return
@@ -118,5 +117,4 @@ class AddData:
             variance=0
             )
 
-        add_and_commit(self.session, new_income_type,'Income type added successfully!')
-        print(f"Updated income types: {get_all(self.session, IncomeType)}")   
+        add_and_commit(self.session, new_income_type,'Income type added successfully!',f"New income type: {new_income_type.name}")   

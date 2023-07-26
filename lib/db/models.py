@@ -32,9 +32,10 @@ class Expense(Base):
     category = relationship('Budget', back_populates='expenses')
 
     def __repr__(self):
+        formatted_date = self.date.strftime('%Y-%m-%d')
         return f'Expense #{self.id}: {self.description}, ' + \
             f'Amount: ${self.amount:.2f}, ' + \
-            f'Date: {self.date}, ' + \
+            f'Date: {formatted_date}, ' + \
             f'Category: {self.category}'
 
 class IncomeType(Base):
@@ -64,9 +65,10 @@ class Income(Base):
     income_type = relationship('IncomeType', back_populates='incomes')
 
     def __repr__(self):
+        formatted_date = self.date.strftime('%Y-%m-%d')
         return f'Income #{self.id}: {self.name}, ' + \
             f'Amount: ${self.amount:.2f}, ' + \
-            f'Date: {self.date}, ' + \
+            f'Date: {formatted_date}, ' + \
             f'Type: {self.income_type}'
 
 

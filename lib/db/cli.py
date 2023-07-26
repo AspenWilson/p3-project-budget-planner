@@ -6,7 +6,8 @@ from update_data import UpdateData
 from variances import Variance
 from budget import SetBudget
 from summaries import MonthSummary
-from export_data import export_all_data. export_yearly_data, export_monthly_data
+from export_data import export_all_data, export_yearly_data, export_monthly_data
+from helpers import line_print
 
 
 @click.group()
@@ -26,6 +27,9 @@ def welcome():
 def set_budget():
     budget = SetBudget()
     budget.set_budget()
+
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
 
 #commands from summaries.py
 
@@ -100,10 +104,16 @@ def delete_expense():
     delete_data = DeleteData()
     delete_data.delete_expense()
 
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
+
 @cli.command(name='d2')
 def delete_income():
     delete_data = DeleteData()
     delete_data.delete_income()
+
+    variances = Variance()
+    variances.update_all_actuals_and_variances()
 
 @cli.command(name='d3')
 def delete_expense_category():
@@ -124,6 +134,8 @@ def delete_seed_data():
 
 @cli.command(name='u3')
 def update_all_actuals_and_variances():
+    print('Command U3: Update actual and variance numbers for Monthly Budget and Monthly Income')
+    line_print()
     variances = Variance()
     variances.update_all_actuals_and_variances()
     print('All monthly actuals and variances have been updated successfully!')

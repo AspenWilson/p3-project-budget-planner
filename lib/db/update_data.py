@@ -34,9 +34,9 @@ class UpdateData:
 
             if update_to == 3:
                 print(f'Available expense categories: {get_all(self.session, Budget)}')
-                category_name = input('Enter the new category for this expense entry: ')
+                category_id = input('Enter the new category ID for this expense entry: ')
 
-                existing_category = get_first(self.session, Budget,'category', category_name)
+                existing_category = get_first(self.session, Budget,'id', category_id)
                 if existing_category:
                     expense.category = existing_category
                 else:
@@ -46,6 +46,10 @@ class UpdateData:
             if update_to == 4:
                 new_description = input('Enter the new description for this expense entry: ')
                 expense.description = new_description
+
+            if update_to > 4:
+                print('Invalid entry. Please select from the available options.')
+                return
 
         commit_and_msg(self.session,f"Expense with ID {expense_id} updated successfully.", f"Updated expense details: {expense}")
 
@@ -77,9 +81,9 @@ class UpdateData:
 
             if update_to == 4:
                 print(f'Available income types: {get_all(self.session, IncomeType)}')
-                income_type_name = input('Enter the new income type for this income entry: ')
+                income_type_id = input('Enter the new income type ID for this income entry: ')
 
-                existing_income_type = get_first(self.session, IncomeType, 'name', income_type_name)
+                existing_income_type = get_first(self.session, IncomeType, 'id', income_type_id)
                 if existing_income_type:
                     income.income_type = existing_income_type
                 else:
@@ -93,7 +97,7 @@ class UpdateData:
         commit_and_msg(self.session, f"Income with ID {income_id} updated successfully.", f"Updated income details: {income}")
     
     def update_expected_income(self):
-        print('Command U4: Update expected income by income type')
+        print('Command U4: Update expected monthly income by income type')
         line_print()
 
         for income_type in get_all(self.session, IncomeType):
