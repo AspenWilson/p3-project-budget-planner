@@ -73,6 +73,21 @@ def generate_income_data(income):
         "Income Type": income.income_type.name
     }
 
+def generate_income_type_data(income_type):
+    return {        
+        "Income Type": income_type.name, 
+        "Expected": income_type.expected, 
+        "Actual": income_type.actual,
+        "Variance:": income_type.variance
+    }
+
+def generate_budget_data(budget):
+    return {
+        "Budget Category": budget.category,
+        "Budget": budget.budget,
+        "Actual": budget.actual,
+        "Variance": budget.variance
+    }
 
 #session commits 
 

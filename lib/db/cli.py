@@ -125,10 +125,10 @@ def delete_income_type():
     delete_data = DeleteData()
     delete_data.delete_income_type()
 
-@cli.command(name='17')
+@cli.command(name='x')
 def delete_seed_data():
     delete_data = DeleteData()
-    delete_data.delete_seed_data()
+    delete_data.delete_all_data()
 
 #commands from variances.py
 

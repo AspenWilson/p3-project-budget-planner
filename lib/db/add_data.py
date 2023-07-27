@@ -35,7 +35,7 @@ class AddData:
             print(f'New Expense Entry Details: {expense}')
             choice = input("Are you sure you want to add this expense entry? y/n: ")
             
-            if choice == 'y':
+            if choice.lower() == 'y':
                 add_and_commit(self.session, expense,'Expense entry added successfully!', f'New expense entry details: {expense}')
             else:
                 print('Expense entry cancelled by user.')
@@ -69,7 +69,7 @@ class AddData:
         print(f'New Income Entry Details: {income}')
         choice = input("Are you sure you want to add this income entry? y/n: ")
         
-        if choice == 'y':
+        if choice.lower() == 'y':
             add_and_commit(self.session, income,'Income entry added successfully!',f'New income entry details: {income}')
         else:
             print('Income entry cancelled by user.')

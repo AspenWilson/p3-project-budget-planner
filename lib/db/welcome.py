@@ -14,7 +14,7 @@ class Welcome:
         print("Welcome to your Budget Planner CLI!")
         line_print()
         print("You have many options to choose from to help you set and maintain your budget. Your options are listed below. To call these commands, simply enter python cli.py and then enter the letter/number of the command. If you ever need to see your options, type 'python cli.py w' into your terminal:")
-        print("\t--> 1. View Budget: This shows you all your expenses for the year, broken out by category.")
+        print("\t--> 1. View Expenses: This shows you all your expenses for the year, broken out by category.")
         print("\t--> 2. Set Budget: Enter you expected monthly income and set your monthly budget by allocating a percent of your income to each budget category.")
         print("\t--> 3. Monthly Summary: View a summary of your total expenses, total income, total budget, and the current variance between your expenses and your budget for the current month. ")
         line_print()
@@ -40,6 +40,9 @@ class Welcome:
         print("\t--> e1. Export All Data: Export all your data into .xlsx files. Data will be exported into the output_directory folder.")
         print("\t--> e2. Export Current Year Data: Export all your data for the current year into .xlsx files. Data will be exported into the output_directory folder.")
         print("\t--> e3. Export Current Month Data: Export all your data for the current month into .xlsx files. Data will be exported into the output_directory folder.")
+        line_print()
+        print("Delete All")
+        print("\t--> x. Delete all your current data")
 
 
 

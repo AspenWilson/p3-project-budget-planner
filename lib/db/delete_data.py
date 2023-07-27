@@ -21,7 +21,7 @@ class DeleteData:
             print(f"Income entry details: {income}")
             choice = input("Are you sure to want to delete this entry? y/n: ")
             
-            if choice == 'y':
+            if choice.lower() == 'y':
                 delete_and_commit(self.session, income, f"Income with ID {income_id} deleted successfully!")
             else: 
                 print('Income entry deletion cancelled by user.')
@@ -39,24 +39,24 @@ class DeleteData:
             print(f"Expense entry details: {expense}")
             choice = input("Are you sure to want to delete this entry? y/n: ")
             
-            if choice == 'y':
+            if choice.lower() == 'y':
                 delete_and_commit(self.session, expense, f"Expense with ID {expense_id} deleted successfully!")
             else:
                 print('Expense entry deletion cancelled by user.')
         else:
             print(f"Expense with ID {expense_id} not found.")
     
-    def delete_seed_data(self):
-        response = input('Are you sure you want to delete all seed data? (y/n): ')
-        if response.lower() == 'y':
+    def delete_all_data(self):
+        choice = input('WARNING: You are about to delete all your data. This action cannot be undone. Do you want to continue? (y/n): ')
+        if choice.lower() == 'y':
             self.session.query(Expense).delete()
             self.session.query(Income).delete()
             self.session.query(Budget).delete()
             self.session.query(IncomeType).delete()
             self.session.commit()
-            print('Seed data has been deleted.')
+            print('All data has been deleted.')
         else:
-            print('Operation cancelled. Seed data was not deleted.')
+            print('Operation cancelled by user.')
     
     def delete_expense_category(self):
         print('Command D3: Delete an expense category')
@@ -71,7 +71,7 @@ class DeleteData:
             print(f'{category}')
             choice = input('WARNING: You are about to delete an expense category. This action cannot be undone. You should ensure there are no expenses currently tagged to this category. Are you sure you want to delete? y/n: ')
             
-            if choice == 'y':
+            if choice.lower() == 'y':
                 delete_and_commit(self.session, category, f"Expense category {category} deleted successfully!")
             else:
                 print('Expense category deletion cancelled by user.')
@@ -91,7 +91,7 @@ class DeleteData:
             print(f'{income_type}')
             choice = input('WARNING: You are about to delete an income type. This action cannot be undone. You should ensure there are no income entries currently tagged to this income type. Are you sure you want to delete? y/n: ')
             
-            if choice == 'y':
+            if choice.lower() == 'y':
                 delete_and_commit(self.session, income_type,f"Income type {income_type} deleted successfully!")
             else:
                 print('Expense category deletion cancelled by user.')
