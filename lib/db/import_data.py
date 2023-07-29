@@ -6,8 +6,8 @@ import datetime
 
 class ImportData:
 
-    expenses_csv_file_path = '/Users/aspen/Downloads/Budget Planner CLI - Import_Expenses (1).csv'
-    income_csv_file_path = '/Users/aspen/Downloads/Budget Planner CLI - Import_Income (1).csv'
+    expenses_csv_file_path = '/Users/aspen/Downloads/Budget Planner CLI - Import_Expenses (1).csv' #Update this to your specific file path
+    income_csv_file_path = '/Users/aspen/Downloads/Budget Planner CLI - Import_Income (1).csv' #Update this to your specific file path
 
     def __init__(self):
         Session = sessionmaker(bind=engine)
@@ -26,7 +26,7 @@ class ImportData:
         if choice.lower() == 'y':    
             for index, row in df.iterrows():
                 category_name = row['Category Name']
-                category = self.session.query(Budget).filter_by(category=category_name).first()
+                category = get_first(self.session, Budget, 'category', category_name)
 
                 if category:
                     date = datetime.datetime.strptime(row['Date'], '%Y-%m-%d').date()
@@ -60,7 +60,7 @@ class ImportData:
         if choice.lower() == 'y':    
             for index, row in df.iterrows():
                 income_type = row['Income Type']
-                existing_income_type = self.session.query(IncomeType).filter_by(name=income_type).first()
+                existing_income_type = get_first(self.session, IncomeType, 'name', income_type)
 
                 if existing_income_type:
                     date = datetime.datetime.strptime(row['Date'], '%Y-%m-%d').date()
