@@ -6,6 +6,7 @@ from update_data import UpdateData
 from variances import Variance
 from budget import SetBudget
 from summaries import MonthSummary
+from import_data import ImportData
 from export_data import export_all_data, export_yearly_data, export_monthly_data
 from helpers import line_print
 
@@ -152,6 +153,17 @@ def export_total_data():
 @cli.command(name='e3')
 def export_total_data():
     export_monthly_data()
+
+#commands from import_data.py
+@cli.command(name='i1')
+def import_expenses():
+    import_data=ImportData()
+    import_data.import_all_expenses()
+
+@cli.command(name='i2')
+def import_expenses():
+    import_data=ImportData()
+    import_data.import_all_income()
 
 if __name__ == '__main__':
     cli()

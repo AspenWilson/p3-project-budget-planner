@@ -1,6 +1,7 @@
+
 # Budget Planner CLI
 
-The Budget Planner CLI is a command-line tool designed to help you manage your monthly budget, track expenses, and monitor your income. It allows you to set budget categories, record expenses, and track your financial progress as it relates to your monthly budget.
+The Budget Planner CLI is a command-line tool designed to help you manage your monthly budget, track expenses, and monitor your income. It allows you to set budget categories, record expenses, and track your financial progress.
 
 ## Getting Started
 
@@ -112,14 +113,35 @@ E3 - Export current month data:
 - Use: Export current month data into xlsx files
 - Code: `$ python cli.py e3`
 
-X - Delte all data:
+I1 - Import expenses:
+- Use: Mass import expense entries from the Google Sheets file
+- Code: `$ python cli.py i1`
+
+I2 - Import income entries:
+- Use: Mass import income entries from the Google Sheets file 
+- Code: `$ python cli.py i2`
+
+X - Delete all data:
 - Use: Delete all current data in your CLI
 - Code: `$ python cli.py x`
 
 
+## Features
+
+In addition to the commands listed above, I've created a supplemental Google Sheets file to see visual representations of your CLI data. This file can also be used to perform mass imports of both expense and income entries, which could be helpful when you just get started with your CLI. 
+
+To leverage this file, [click here](https://docs.google.com/spreadsheets/d/1MYhMbLZFQ9a5uIp4Sv_oNIiOdM97Pw8iO0rYwTLRgX4/copy)
+
+After clicking the link, you'll be prompted to make a copy of the file. Once a copy is made, that file is only viewable by you, unless you choose to share it with others. 
+
+There are detailed instructions within the Google Sheets document explaining how to leverage each tab. 
+
+[See here](https://docs.google.com/spreadsheets/d/1NcXUc5shcDPHpSJaskrQjfVgHjG2byaIQrH9zp1KkAQ/edit#gid=1017681728) for an example of what these summaries looks like. 
+
+
 ## Documentation
 
-This CLI uses multiple files. You should not need to update these in order for your CLI to function properly, but below is a brief summary of what each file in the lib/db folder contains:
+This CLI uses multiple files. You should not need to update these in order for your CLI to function properly (except for the import_data.py file), but below is a brief summary of what each file in the lib/db folder contains:
 
 ### Add_Data.py 
 This contains all code related to the add commands. 
@@ -137,6 +159,8 @@ This contains all code related to deleting data.
 This contains all code for exporting your data to xlsx files. 
 ### Helpers.py 
 This contains helper functions that are used in multiple different files. 
+### Import_Data.py
+This contains all code for importing your data from the provided Google Sheets file. This is also the file that will need to be updated with the correct document pathways of your CSV import files. 
 ### Models.py 
 This contains the models (classes) for the database. 
 ### Seed.py 
@@ -155,3 +179,4 @@ This contains all the print() lines for the Welcome message.
 To exit out of any command, enter Control+C in your terminal. 
 
 If you encounter any issues or have questions related to the Budget Planner CLI, please feel free to create an issue on the project's GitHub repository.
+

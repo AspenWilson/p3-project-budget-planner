@@ -41,6 +41,9 @@ class Welcome:
         print("\t--> e2. Export Current Year Data: Export all your data for the current year into .xlsx files. Data will be exported into the output_directory folder.")
         print("\t--> e3. Export Current Month Data: Export all your data for the current month into .xlsx files. Data will be exported into the output_directory folder.")
         line_print()
+        print('Import Data')
+        print("\t--> i1. Import Expenses: Import multiple expenses.")
+        print("\t--> i2. Import Income: Import multiple income entries.")
         print("Delete All")
         print("\t--> x. Delete all your current data")
 
